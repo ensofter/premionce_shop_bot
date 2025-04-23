@@ -6,14 +6,14 @@ from lexicon.lexicon_main_menu import LEXICON_MM
 
 def create_inline_kb(width: int, lexicon: dict, *args: str, **kwargs: str) -> InlineKeyboardBuilder:
     kb_builder = InlineKeyboardBuilder()
-
     buttons: list[InlineKeyboardButton] = []
 
     if args:
+
         for button in args:
             buttons.append(
                 InlineKeyboardButton(
-                    text=lexicon[button] if button in lexicon else button,
+                    text=lexicon[button][:30] + '...' if button in lexicon else button,
                     callback_data=button
                 )
             )
