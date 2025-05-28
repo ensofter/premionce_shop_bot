@@ -4,17 +4,17 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 from keyboards.inline_kb import create_inline_kb
 from keyboards.pagination_kb import create_pagination_keyboard
 from lexicon.lexicon_common import LEXICON_COMMON
-from lexicon.lexicon_faq import LEXICON_FAQ
+from lexicon.lexicon_faq import LEXICON_FAQ_QUESTIONS
 
 router = Router()
 
 
 @router.callback_query(F.data.in_(['faq', 'back_to_faq']))
 async def handle_clbck_button_faq_pressed(callback: CallbackQuery):
-    questions = [i for i in LEXICON_FAQ.keys()]
+    questions = [i for i in LEXICON_FAQ_QUESTIONS.keys()]
     reply_kb = create_inline_kb(
         1,
-        LEXICON_FAQ,
+        LEXICON_FAQ_QUESTIONS,
         *questions
     )
     reply_kb.row(InlineKeyboardButton(text=LEXICON_COMMON['back'], callback_data='back_to_about'))
@@ -24,9 +24,9 @@ async def handle_clbck_button_faq_pressed(callback: CallbackQuery):
     )
 
 
-@router.callback_query(F.data.split(':')[0].in_([i for i in LEXICON_FAQ.keys()]))
+@router.callback_query(F.data.split(':')[0].in_([i for i in LEXICON_FAQ_QUESTIONS.keys()]))
 async def handle_clbck_button_question_pressed(callback: CallbackQuery):
-    questions_keys = [i for i in LEXICON_FAQ.keys()]
+    questions_keys = [i for i in LEXICON_FAQ_QUESTIONS.keys()]
     current_item = callback.data
     current_index = questions_keys.index(current_item)
 
@@ -39,14 +39,14 @@ async def handle_clbck_button_question_pressed(callback: CallbackQuery):
     )
     reply_kb.row(InlineKeyboardButton(text=LEXICON_COMMON['back'], callback_data='back_to_faq'))
     await callback.message.edit_text(
-        text=LEXICON_FAQ[callback.data],
+        text=LEXICON_FAQ_QUESTIONS[callback.data],
         reply_markup=reply_kb.as_markup()
     )
 
 
 @router.callback_query(F.data.split(':')[0] == 'backward')
 async def handle_clbck_button_backward_pressed(callback: CallbackQuery):
-    questions_keys = [i for i in LEXICON_FAQ.keys()]
+    questions_keys = [i for i in LEXICON_FAQ_QUESTIONS.keys()]
     current_item = callback.data.split(':')[1]
     current_index = questions_keys.index(current_item)
 
@@ -60,7 +60,7 @@ async def handle_clbck_button_backward_pressed(callback: CallbackQuery):
         reply_kb.row(InlineKeyboardButton(text=LEXICON_COMMON['back'], callback_data='back_to_faq'))
 
         await callback.message.edit_text(
-            text=LEXICON_FAQ[prev_key],
+            text=LEXICON_FAQ_QUESTIONS[prev_key],
             reply_markup=reply_kb.as_markup()
         )
     await callback.answer()
@@ -68,7 +68,7 @@ async def handle_clbck_button_backward_pressed(callback: CallbackQuery):
 
 @router.callback_query(F.data.split(':')[0] == 'forward')
 async def handle_clbck_button_forward_pressed(callback: CallbackQuery):
-    questions_keys = [i for i in LEXICON_FAQ.keys()]
+    questions_keys = [i for i in LEXICON_FAQ_QUESTIONS.keys()]
     current_item = callback.data.split(':')[1]
     current_index = questions_keys.index(current_item)
 
@@ -83,7 +83,7 @@ async def handle_clbck_button_forward_pressed(callback: CallbackQuery):
         reply_kb.row(InlineKeyboardButton(text=LEXICON_COMMON['back'], callback_data='back_to_faq'))
 
         await callback.message.edit_text(
-            text=LEXICON_FAQ[next_key],
+            text=LEXICON_FAQ_QUESTIONS[next_key],
             reply_markup=reply_kb.as_markup()
         )
     await callback.answer()

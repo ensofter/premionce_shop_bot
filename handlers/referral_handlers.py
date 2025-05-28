@@ -3,7 +3,6 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from lexicon.lexicon_common import LEXICON_COMMON
-from lexicon.lexicon_inline_kb import LEXICON_INLINE_KB
 from lexicon.lexicon_referral import LEXICON_REFERRAL
 
 router = Router()
@@ -15,7 +14,7 @@ async def handle_clbck_button_referral_url_pressed(callback: CallbackQuery):
         [
             [
                 InlineKeyboardButton(
-                    text=LEXICON_INLINE_KB['send_referral'],
+                    text=LEXICON_REFERRAL['send_referral'],
                     switch_inline_query='https://t.me/Premioncebot?start=ref_12345678'
                 )
             ],
