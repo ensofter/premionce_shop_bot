@@ -25,5 +25,6 @@ class UserData:
 
 user_dict_template = UserData(
     referral=Referral(),
+    profile=Profile()
 )
 user_db: Dict[int, UserData] = {}

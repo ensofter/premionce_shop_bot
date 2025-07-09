@@ -20,8 +20,11 @@ router = Router()
 async def handle_profile(message_or_callback: Message | CallbackQuery):
     user_id = message_or_callback.from_user.id
     if user_id in user_db:
-        if user_db[user_id].profile:
-            text = LEXICON_PROFILE['exist']
+        if all([user_db[user_id].profile.fio, user_db[user_id].profile.phone, user_db[user_id].profile.address]):
+            text = f'🤓 Ваш профиль\n\n<b>ФИО</b>: <i>{user_db[user_id].profile.fio}</i>\n' \
+                   f'<b>Номер телефона</b>: <i>{user_db[user_id].profile.phone}</i>\n' \
+                   f'<b>Адрес</b>: <i>{user_db[user_id].profile.address}</i>\n\n' \
+                   f'Если вы желаете что-либо изменить, воспользуйтесь кнопками ниже'
             reply_kb = create_inline_kb(
                 1,
                 LEXICON_PROFILE,

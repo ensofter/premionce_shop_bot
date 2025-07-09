@@ -2,19 +2,18 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import Message
 from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.fsm.storage.memory import MemoryStorage
 
 from confing.config import Config
-from aiogram.enums import ParseMode
 from handlers import about_handlers
-from handlers import main_menu_handlers
-from handlers import referral_handlers
-from handlers import other_handlers
 from handlers import cmd_handlers
+from handlers import main_menu_handlers
+from handlers import other_handlers
 from handlers import profile_handlers
+from handlers import referral_handlers
+from keyboards.set_bot_menu import set_main_menu
 
 conf = Config.load_config()
 logger = logging.getLogger()
@@ -38,7 +37,9 @@ async def main():
         other_handlers.router
     )
 
+    await set_main_menu(bot)
     await dp.start_polling(bot)
+
 
 if __name__ == '__main__':
     asyncio.run(main())
