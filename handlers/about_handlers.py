@@ -3,6 +3,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 
 from keyboards.inline_kb import create_inline_kb
 from keyboards.pagination_kb import create_pagination_keyboard
+from lexicon.lexicon_about import LEXICON_OFFER, LEXICON_ABOUT
 from lexicon.lexicon_common import LEXICON_COMMON
 from lexicon.lexicon_faq import LEXICON_FAQ_QUESTIONS
 
@@ -87,3 +88,17 @@ async def handle_clbck_button_forward_pressed(callback: CallbackQuery):
             reply_markup=reply_kb.as_markup()
         )
     await callback.answer()
+
+
+@router.callback_query(F.data == 'offer')
+async def hancle_clbck_button_offer_pressed(callback: CallbackQuery):
+    text = LEXICON_OFFER['offer']
+    inline_kb = create_inline_kb(
+        1,
+        LEXICON_ABOUT,
+        'back_to_about'
+    )
+    await callback.message.edit_text(
+        text=text,
+        reply_markup=inline_kb.as_markup()
+    )

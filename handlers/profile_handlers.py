@@ -329,6 +329,19 @@ async def handle_address_edit_sent(message: Message, state: FSMContext):
 @router.message(StateFilter(FSMFillAddressProfile.fill_address))
 async def warning_not_address_again(message: Message):
     await message.answer(
-        # text=LEXICON_PROFILE['warning_not_address']
-        text='пупупу'
+        text=LEXICON_PROFILE['warning_not_address']
+    )
+
+
+@router.callback_query(F.data == 'for_what')
+async def handle_clbck_for_what_button_pressed(callback: CallbackQuery):
+    text = LEXICON_PROFILE['for_what_expanded']
+    inline_kb = create_inline_kb(
+        1,
+        LEXICON_PROFILE,
+        'back_to_profile'
+    )
+    await callback.message.edit_text(
+        text=text,
+        reply_markup=inline_kb.as_markup()
     )

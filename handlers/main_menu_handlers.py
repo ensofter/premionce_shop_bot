@@ -9,10 +9,31 @@ from lexicon.lexicon_profile import LEXICON_PROFILE
 from lexicon.lexicon_referral import LEXICON_REFERRAL
 from lexicon.lexicon_main_menu import LEXICON_MM
 from lexicon.lexicon_about import LEXICON_ABOUT
+from lexicon.lexicon_catalog import LEXICON_CATALOG_CATEGORIES, LEXICON_CATALOG
 
 logger = logging.getLogger()
 
 router = Router()
+
+
+@router.message(F.text == LEXICON_MM['catalog'])
+@router.callback_query(F.data == 'back_to_catalog')
+async def handle_catalog(message_or_callback: Message | CallbackQuery):
+    inline_kb = create_inline_kb(
+        1,
+        LEXICON_CATALOG_CATEGORIES,
+        *LEXICON_CATALOG_CATEGORIES.keys()
+    )
+    if isinstance(message_or_callback, CallbackQuery):
+        await message_or_callback.message.edit_text(
+            text=LEXICON_CATALOG['welcome_text'],
+            reply_markup=inline_kb.as_markup()
+        )
+    else:
+        await message_or_callback.answer(
+            text=LEXICON_CATALOG['welcome_text'],
+            reply_markup=inline_kb.as_markup()
+        )
 
 
 @router.message(F.text == LEXICON_MM['profile'])
@@ -25,28 +46,29 @@ async def handle_profile(message_or_callback: Message | CallbackQuery):
                    f'<b>Номер телефона</b>: <i>{user_db[user_id].profile.phone}</i>\n' \
                    f'<b>Адрес</b>: <i>{user_db[user_id].profile.address}</i>\n\n' \
                    f'Если вы желаете что-либо изменить, воспользуйтесь кнопками ниже'
-            reply_kb = create_inline_kb(
+            inline_kb = create_inline_kb(
                 1,
                 LEXICON_PROFILE,
                 'edit_profile',
-                'for_what'
+                'for_what',
             )
         else:
             text = LEXICON_PROFILE['does_not_exist']
-            reply_kb = create_inline_kb(
+            inline_kb = create_inline_kb(
                 1,
                 LEXICON_PROFILE,
-                'fill_profile'
+                'fill_profile',
+                'for_what'
             )
         if isinstance(message_or_callback, CallbackQuery):
             await message_or_callback.message.edit_text(
                 text=text,
-                reply_markup=reply_kb.as_markup()
+                reply_markup=inline_kb.as_markup()
             )
         else:
             await message_or_callback.answer(
                 text=text,
-                reply_markup=reply_kb.as_markup()
+                reply_markup=inline_kb.as_markup()
             )
 
 
@@ -88,22 +110,23 @@ async def handle_referral(message_or_callback: Message | CallbackQuery):
 @router.message(F.text == LEXICON_MM['about'])
 @router.callback_query(F.data == 'back_to_about')
 async def handle_about(message_or_callback: Message | CallbackQuery):
-    reply_kb = create_inline_kb(
+    inline_kb = create_inline_kb(
         1,
         LEXICON_ABOUT,
         'faq',
+        'offer'
     )
-    reply_kb.row(InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"))
+    inline_kb.row(InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"))
 
     text = LEXICON_ABOUT['🍥 О нас']
 
     if isinstance(message_or_callback, CallbackQuery):
         await message_or_callback.message.edit_text(
             text=text,
-            reply_markup=reply_kb.as_markup()
+            reply_markup=inline_kb.as_markup()
         )
     else:
         await message_or_callback.answer(
             text=text,
-            reply_markup=reply_kb.as_markup()
+            reply_markup=inline_kb.as_markup()
         )
