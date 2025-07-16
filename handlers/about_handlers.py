@@ -6,26 +6,30 @@ from keyboards.pagination_kb import create_pagination_keyboard
 from lexicon.lexicon_about import LEXICON_OFFER, LEXICON_ABOUT
 from lexicon.lexicon_common import LEXICON_COMMON
 from lexicon.lexicon_faq import LEXICON_FAQ_QUESTIONS
+import logging
 
 router = Router()
+
+
+logger = logging.getLogger(__name__)
 
 
 @router.callback_query(F.data.in_(['faq', 'back_to_faq']))
 async def handle_clbck_button_faq_pressed(callback: CallbackQuery):
     questions = [i for i in LEXICON_FAQ_QUESTIONS.keys()]
-    reply_kb = create_inline_kb(
+    inline_kb = create_inline_kb(
         1,
         LEXICON_FAQ_QUESTIONS,
         *questions
     )
-    reply_kb.row(InlineKeyboardButton(text=LEXICON_COMMON['back'], callback_data='back_to_about'))
+    inline_kb.row(InlineKeyboardButton(text=LEXICON_COMMON['back'], callback_data='back_to_about'))
     await callback.message.edit_text(
         text='👨‍🏫 Выберите вопрос',
-        reply_markup=reply_kb.as_markup()
+        reply_markup=inline_kb.as_markup()
     )
 
 
-@router.callback_query(F.data.split(':')[0].in_([i for i in LEXICON_FAQ_QUESTIONS.keys()]))
+@router.callback_query(F.data.in_([i for i in LEXICON_FAQ_QUESTIONS.keys()]))
 async def handle_clbck_button_question_pressed(callback: CallbackQuery):
     questions_keys = [i for i in LEXICON_FAQ_QUESTIONS.keys()]
     current_item = callback.data
