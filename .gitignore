@@ -2,4 +2,5 @@ myvenv
 .idea
 .env
 .python-version
+creds.json
 __pycache__
