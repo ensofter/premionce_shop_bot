@@ -93,30 +93,44 @@ LEXICON_METABOLICHESKIE_ITEMS: dict[str, str] = {
 
 LEXICON_CATEGORIES_INFO = {
     'racetami': {
+        'category_id': 1,
+        'category_name': 'racetami',
         'description': "Рацетамы — класс ноотропов, улучшающих когнитивные функции, память и концентрацию за счёт модуляции нейротрансмиттеров, особенно ацетилхолина и глутамата.",
         'items': LEXICON_RACETAMI_ITEMS
     },
     'holinergetiki': {
+        'category_id': 2,
+        'category_name': 'holinergetiki',
         'description': "Холинергики — группа веществ, усиливающих синтез, высвобождение или активность ацетилхолина — ключевого нейромедиатора для памяти, обучения и когнитивных функций. Они улучшают нейропластичность и могут снижать возрастное ухудшение когнитивных способностей.",
         'items': LEXICON_HOLINERGETIKI_ITEMS
     },
     'stimulators': {
+        'category_id': 3,
+        'category_name': 'stimulators',
         'description': "Стимуляторы и дофаминергические вещества повышают энергию, мотивацию и концентрацию за счёт усиления активности дофамина, норадреналина и других возбуждающих нейротрансмиттеров. Они улучшают работоспособность, но требуют осторожности из-за возможного привыкания и побочных эффектов.",
         'items': LEXICON_STIMULATORES_ITEMS
     },
     'neiroprotectors': {
+        'category_id': 4,
+        'category_name': 'neiroprotectors',
         'description': "Нейропротекторы — соединения, защищающие нервные клетки от повреждений, окислительного стресса и нейродегенерации. Они способствуют долгосрочному здоровью мозга, улучшают устойчивость к нагрузкам и могут замедлять возрастные когнитивные изменения.",
         'items': LEXICON_NEIROPROTECTORS_ITEMS
     },
     'adaptogeni': {
+        'category_id': 5,
+        'category_name': 'adaptogeni',
         'description': "Адаптогены и эндокринные модуляторы помогают организму адаптироваться к стрессу, нормализуя работу гормональной системы (кортизол, серотонин, мелатонин). Они улучшают устойчивость к нагрузкам, снижают усталость и способствуют балансу нервной системы.",
         'items': LEXICON_ADAPTOGENI_ITEMS
     },
     'antidepressanti': {
+        'category_id': 6,
+        'category_name': 'antidepressanti',
         'description': "Антидепрессанты и анксиолитики влияют на серотонин, ГАМК и другие нейромедиаторы, снижая тревожность, улучшая настроение и стабилизируя эмоциональный фон. Некоторые из них обладают ноотропными свойствами, улучшая когнитивные функции при стрессе.",
         'items': LEXICON_ANTIDEPRESSANTI_ITEMS
     },
     'metabolicheskie': {
+        'category_id': 7,
+        'category_name': 'metabolicheskie',
         'description': "Метаболические ноотропы и другие вещества улучшают энергообмен в мозге, усиливают кровообращение или оказывают комплексное воздействие на когнитивные функции. Они могут включать витаминоподобные соединения, пептиды и другие вспомогательные компоненты для поддержки работы мозга.",
         'items': LEXICON_METABOLICHESKIE_ITEMS
     }
@@ -124,210 +138,301 @@ LEXICON_CATEGORIES_INFO = {
 
 LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
     "7-oho": {
+        "item_id": 1,
+        "category_id": 5,
+        "category_name": "adaptogeni",
         "price": 3400,
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "7-OXO (7-KETO-DHEA) - Ускоряет метаболизм, повышает энергию. Не влияет на гормоны напрямую."
     },
     "9-me-bc": {
+        "item_id": 2,
+        "category_id": 6,
+        "category_name": "antidepressanti",
         "price": 1500,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "9-ME-BC - Восстанавливает дофаминовые нейроны. Улучшает мотивацию и когнитивные функции."
     },
     "aicar": {
+        "item_id": 3,
         "price": 1500,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "AICAR - Активирует AMPK, улучшает выносливость и метаболизм глюкозы."
     },
     "amino-tadalafil": {
+        "item_id": 4,
         "price": 1600,
         "quantity": "60 капсул",
         "dosage": "5+5 мг",
         "description": "AMINO-TADALAFIL (WITH BIOPERINE) - Комбинация тадалафила и биоперина. Улучшает кровообращение и либидо."
     },
     "aniracetam": {
+        "item_id": 5,
+        "category_id": 1,
+        "category_name": "aniracetam",
         "price": 1400,
         "quantity": "30 капсул",
         "dosage": "300 мг",
         "description": "ANIRACETAM - Улучшает память и настроение, снижает тревожность. Действует через AMPA-рецепторы."
     },
     "ladasten": {
+        "item_id": 6,
+        "category_id": 3,
+        "category_name": "stimulators",
         "price": 2500,
         "quantity": "30 капсул",
         "dosage": "50 мг",
         "description": "BROMANTANE (LADASTEN) - Повышает выносливость и адаптацию к стрессу. Без перевозбуждения."
     },
     "citicoline": {
+        "item_id": 7,
+        "category_id": 2,
+        "category_name": "holinergetiki",
         "price": 1600,
         "quantity": "30 капсул",
         "dosage": "250 мг",
         "description": "CDP-CHOLINE (CITICOLINE) - Восстанавливает мембраны нейронов, улучшает фокус и ясность ума."
     },
     "coluracetam": {
+        "item_id": 8,
+        "category_id": 1,
+        "category_name": "racetami",
         "price": 2600,
         "quantity": "30 капсул",
         "dosage": "50 мг",
         "description": "COLURACETAM - Улучшает зрительное восприятие и память. Потенциальный антидепрессант."
     },
     "cycloastragenol": {
+        "item_id": 9,
+        "category_id": 5,
+        "category_name": "adaptogeni",
         "price": 3200,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "CYCLOASTRAGENOL - Активирует теломеразу, замедляет старение. Улучшает иммунитет."
     },
     "d-phenylalanine": {
+        "item_id": 10,
+        "category_id": 6,
+        "category_name": "antidepressanti",
         "price": 1400,
         "quantity": "30 капсул",
         "dosage": "700 мг",
         "description": "D-PHENYLALANINE - Повышает уровень эндорфинов. Эффективен при депрессии и боли."
     },
     "dihexa": {
+        "item_id": 11,
+        "category_id": 4,
+        "category_name": "neiroprotectors",
         "price": 5500,
         "quantity": "100 мг в 5 мл",
         "dosage": "1 мг/пшик (100 доз)",
         "description": "DIHEXA (SPRAY) - Мощный нейрорегенератор, улучшает память и обучаемость."
     },
     "androxal": {
+        "item_id": 12,
+        "category_id": 5,
+        "category_name": "adaptogeni",
         "price": 2800,
         "quantity": "30 капсул",
         "dosage": "20 мг",
         "description": "ENCLOMIPHENE (ANDROXAL) - Повышает тестостерон, улучшает либидо и энергию."
     },
     "4-dma-78-dhf": {
+        "item_id": 13,
         "price": 2200,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "EUTROPOFLAVIN (4'-DMA-7,8-DHF) - Аналог BDNF, улучшает нейропластичность и память."
     },
     "aromasin": {
+        "item_id": 14,
+        "category_id": 5,
+        "category_name": "adaptogeni",
         "price": 1800,
         "quantity": "30 капсул",
         "dosage": "25 мг",
         "description": "EXEMESTANE (AROMASIN) - Ингибитор ароматазы. Снижает эстроген, повышает тестостерон."
     },
     "fasoracetam": {
+        "item_id": 15,
+        "category_id": 1,
+        "category_name": "racetami",
         "price": 2600,
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "FASORACETAM - Улучшает внимание и обучаемость, особенно при СДВГ."
     },
     "ketas": {
+        "item_id": 16,
         "price": 2000,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "IBUDILAST (KETAS) - нейропротектор, снижает нейровоспаление."
     },
     "mk-677": {
+        "item_id": 17,
+        "category_id": 5,
+        "category_name": "adaptogeni",
         "price": 2000,
         "quantity": "30 капсул",
         "dosage": "15 мг",
         "description": "IBUTAMOREN (MK-677) - Стимулятор гормона роста. Увеличивает мышечную массу."
     },
     "j-147": {
+        "item_id": 18,
+        "category_id": 4,
+        "category_name": "neiroprotectors",
         "price": 1600,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "J-147 - Антиоксидант и нейропротектор, замедляет старение мозга."
     },
     "l-thp": {
+        "item_id": 19,
+        "category_id": 4,
+        "category_name": "neiroprotectors",
         "price": 1200,
         "quantity": "30 капсул",
         "dosage": "30 мг",
         "description": "L-THP - Анксиолитик и мягкий стимулятор. Снижает тревожность."
     },
     "magnesium_l-threonate": {
+        "item_id": 20,
         "price": 1000,
         "quantity": "30 капсул",
         "dosage": "500 мг",
         "description": "MAGNESIUM L-THREONATE - Лучшая форма магния для мозга. Улучшает память и сон."
     },
     "centrophenoxine": {
+        "item_id": 21,
+        "category_id": 2,
+        "category_name": "holinergetiki",
         "price": 3500,
         "quantity": "30 капсул",
         "dosage": "300 мг",
         "description": "MECLOFENOXATE (CENTROPHENOXINE) - Улучшает энергетический обмен в мозге, замедляет старение."
     },
     "nnmti": {
+        "item_id": 22,
         "price": 5700,
         "quantity": "30 капсул",
         "dosage": "50 мг",
         "description": "NNMTI (5-AMINO-1MQ) - Блокирует NNMT, повышает NAD+. Замедляет старение."
     },
     "nor-bni": {
+        "item_id": 23,
+        "category_id": 6,
+        "category_name": "antidepressanti",
         "price": 3800,
         "quantity": "50 мг в 10 мл",
         "dosage": "750 мкг/пшик (65 доз)",
         "description": "NOR-BNI - Блокирует каппа-опиоидные рецепторы, снижает тревожность."
     },
     "noopept": {
+        "item_id": 24,
+        "category_id": 1,
+        "category_name": "racetami",
         "price": 1200,
         "quantity": "30 капсул",
         "dosage": "30 мг",
         "description": "OMBERACETAM (NOOPEPT) - Нейропротектор с анксиолитическим эффектом."
     },
     "phenylpiracetam_hydrazide": {
+        "item_id": 25,
+        "category_id": 1,
+        "category_name": "racetami",
         "price": 2500,
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "PHENYLPIRACETAM HYDRAZIDE - Аналог фенотропила с пролонгированным действием."
     },
     "wakix": {
+        "item_id": 26,
+        "category_id": 3,
+        "category_name": "stimulators",
         "price": 3500,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "PITOLISANT (WAKIX) - Блокирует гистаминовые рецепторы, повышает бодрость."
     },
     "pramiracetam": {
+        "item_id": 27,
+        "category_id": 1,
+        "category_name": "racetami",
         "price": 2500,
         "quantity": "30 капсул",
         "dosage": "300 мг",
         "description": "PRAMIRACETAM - Сильный стимулятор памяти и аналитического мышления."
     },
     "prl-8-53": {
+        "item_id": 28,
+        "category_id": 4,
+        "category_name": "neiroprotectors",
         "price": 1400,
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "PRL-8-53 - Улучшает краткосрочную память. Эффект после однократного приема."
     },
     "encephabol": {
+        "item_id": 29,
+        "category_id": 2,
+        "category_name": "holinergetiki",
         "price": 2000,
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "PYRITINOL (ENCEFABOL) - Стимулирует метаболизм глюкозы в мозге. Повышает бодрость."
     },
     "enerion": {
+        "item_id": 30,
+        "category_id": 3,
+        "category_name": "stimulators",
         "price": 1800,
         "quantity": "30 капсул",
         "dosage": "200 мг",
         "description": "SULBUTIAMINE (ENERION) - Улучшает энергетический обмен, снижает усталость."
     },
     "osavampator": {
+        "item_id": 31,
+        "category_id": 4,
+        "category_name": "neiroprotectors",
         "price": 3000,
         "quantity": "100 мг в 5 мл DMSO",
         "dosage": "1 мг/пшик (100 доз)",
         "description": "TAK-653 (OSAVAMPATOR) - Усиливает синаптическую пластичность через AMPA-рецепторы."
     },
     "tesofensine": {
+        "item_id": 32,
+        "category_id": 3,
+        "category_name": "stimulators",
         "price": 3000,
         "quantity": "30 мг в 3 мл DMSO",
         "dosage": "500 мкг/пшик (60 доз)",
         "description": "TESOFENSINE - Сильный ингибитор обратного захвата дофамина и норадреналина."
     },
     "fareston": {
+        "item_id": 33,
+        "category_id": 5,
+        "category_name": "adaptogeni",
         "price": 3500,
         "quantity": "30 капсул",
         "dosage": "20 мг",
         "description": "TOREMIFEN (FARESTON) - Антиэстроген, используется в терапии рака груди."
     },
     "78-dhf": {
+        "item_id": 34,
         "price": 1300,
         "quantity": "30 капсул",
         "dosage": "25 мг",
         "description": "TROPOFLAVIN (7,8-DHF) - Усиливает когнитивные функции, защищает нейроны."
     },
     "unifiram": {
+        "item_id": 35,
+        "category_id": 4,
+        "category_name": "neiroprotectors",
         "price": 2800,
         "quantity": "30 капсул",
         "dosage": "10 мг",

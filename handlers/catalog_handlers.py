@@ -3,7 +3,9 @@ import re
 
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from database.database import user_db
 from keyboards.inline_kb import create_inline_kb
 from keyboards.product_card_kb import create_product_keyboard
 from lexicon.lexicon_catalog import LEXICON_CATEGORIES_INFO, LEXICON_ITEMS, LEXICON_CATALOG
@@ -168,7 +170,7 @@ async def handle_clbck_metabolicheskie_item_button_pressed(callback: CallbackQue
 
 
 @router.callback_query(F.data.in_(["increase_quantity", "decrease_quantity"]))
-async def handle_quantity_buttons_pressed(callback: CallbackQuery):
+async def handle_clbck_quantity_buttons_pressed(callback: CallbackQuery):
     debug_message(callback)
     quantity_and_price_in_button_text = callback.message.reply_markup.inline_keyboard[1][0].text
     product_description_text = callback.message.text
@@ -196,3 +198,41 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
     keyboard = create_product_keyboard(quantity=new_quantity, price=new_price, back_category=product_category)
     await callback.message.edit_reply_markup(reply_markup=keyboard)
     await callback.answer()
+
+
+@router.callback_query(F.data == "add_to_cart")
+async def handle_clbck_add_to_cart_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    if user_id in user_db:
+        if user_db[user_id].cart.items:
+            logger.info(f'!!! {user_db[user_id].cart}')
+        debug_message(callback)
+        quantity_and_price_in_button_text = callback.message.reply_markup.inline_keyboard[1][0].text
+        product_description_text = callback.message.text
+        product_category = callback.message.reply_markup.inline_keyboard[4][0].callback_data
+
+
+        match_actual_quantity = re.search(r'Кол-во:\s*(\d+)\s*шт\.\s*(\d+)₽', quantity_and_price_in_button_text)
+        match_product_price = re.search(r'(\d+)₽', product_description_text)
+
+        quantity = int(match_actual_quantity.group(1))  # Актуальное кол-во товара
+        price = int(match_product_price.group(1))  # Цена товара
+
+        items_in_cart = len(user_db[user_id].cart)
+
+        builder = InlineKeyboardBuilder()
+
+        builder.button(text="➖", callback_data="decrease_quantity")
+        builder.button(text="➕", callback_data="increase_quantity")
+
+        builder.button(text=f"Кол-во: {quantity} шт. {price}₽", callback_data="show_quantity")
+
+        builder.button(text="❌ Убрать из корзины", callback_data="delete_from_cart")
+        builder.button(text=f"🛒 Корзина: {items_in_cart}", callback_data="delete_from_cart")
+
+        builder.button(text="👁️‍🗨️ Подробное описание", callback_data="product_details")
+
+        builder.button(text="🔙 Назад", callback_data=product_category)
+
+        builder.adjust(2, 1, 2, 1)
+

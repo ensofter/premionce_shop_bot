@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, List
 
 
 @dataclass
@@ -22,9 +22,8 @@ class UserData:
     referral: Referral = None
     profile: Profile = None
 
-
 user_dict_template = UserData(
     referral=Referral(),
-    profile=Profile()
+    profile=Profile(),
 )
 user_db: Dict[int, UserData] = {}
