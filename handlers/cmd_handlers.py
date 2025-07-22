@@ -21,7 +21,14 @@ async def handle_cmd_start(message: Message):
         photo=LEXICON_CMD['welcome_photo_id'],
         caption=LEXICON_CMD['/start'],
         reply_markup=create_main_menu_reply_kb(
-            3, 'catalog', 'promotions', 'cart', 'orders', 'profile', 'referral', 'about'
+            3,
+            'catalog',
+            'promotions',
+            'cart',
+            'orders',
+            'profile',
+            'referral',
+            'about'
         )
     )
 

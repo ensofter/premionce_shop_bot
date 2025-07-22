@@ -4,7 +4,9 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton
 
 from database.database import user_db
+from keyboards.cart_kb import create_cart_keyboard
 from keyboards.inline_kb import create_inline_kb
+from lexicon.lexicon_cart import LEXICON_CART
 from lexicon.lexicon_profile import LEXICON_PROFILE
 from lexicon.lexicon_referral import LEXICON_REFERRAL
 from lexicon.lexicon_main_menu import LEXICON_MM
@@ -14,6 +16,53 @@ from lexicon.lexicon_catalog import LEXICON_CATALOG_CATEGORIES, LEXICON_CATALOG
 logger = logging.getLogger()
 
 router = Router()
+
+
+
+@router.message(F.text == LEXICON_MM['cart'])
+@router.callback_query(F.data == 'back_to_cart')
+async def handle_cart(message_or_callback: Message | CallbackQuery):
+    user_id = message_or_callback.from_user.id
+    if user_id in user_db:
+        if not user_db[user_id].cart.total_uniq_items():
+            inline_kb = create_inline_kb(
+                1,
+                LEXICON_MM,
+                'catalog'
+            )
+            if isinstance(message_or_callback, CallbackQuery):
+                await message_or_callback.message.edit_text(
+                    text=LEXICON_CART['cart_is_empty'],
+                    reply_markup=inline_kb.as_markup()
+                )
+            else:
+                await message_or_callback.answer(
+                    text=LEXICON_CART['cart_is_empty'],
+                    reply_markup=inline_kb.as_markup()
+                )
+        else:
+            inline_kb = create_inline_kb(
+                1,
+                LEXICON_CART,
+                'catalog'
+            )
+            text = """
+            """
+            for i, v in enumerate(user_db[user_id].cart.items, start=1):
+                text += f"""
+                \n{i}. {user_db[user_id].cart.get_item(v).name}
+                """
+            inline_kb = create_cart_keyboard(user_db[user_id].cart.items)
+            if isinstance(message_or_callback, CallbackQuery):
+                await message_or_callback.message.edit_text(
+                    text=text,
+                    reply_markup=inline_kb
+                )
+            else:
+                await message_or_callback.answer(
+                    text=text,
+                    reply_markup=inline_kb
+                )
 
 
 @router.message(F.text == LEXICON_MM['catalog'])
