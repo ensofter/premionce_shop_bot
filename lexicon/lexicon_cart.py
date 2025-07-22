@@ -6,5 +6,6 @@ LEXICON_CART: dict[str, str | Callable] = {
         f"👾 В вашей корзине {quantity} товаров"
     ),
     'clear_cart': "🧹 Очистить",
-    'buy': "💳 Оформить заказ"
+    'buy': "💳 Оформить заказ",
+    'back_to_catalog': '💊 Каталог'
 }

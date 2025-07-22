@@ -10,20 +10,24 @@ from lexicon.lexicon_main_menu import LEXICON_MM
 def create_cart_keyboard(items: Dict[int, CartItem]):
     builder = InlineKeyboardBuilder()
 
-    for i in items.values():
-        builder.button(text=f"{i.price_per_unit}", callback_data="1111")
-        builder.button(text="➖", callback_data="decrease_quantity")
-        builder.button(text=f"{i.quantity}", callback_data="222")
-        builder.button(text="➕", callback_data="increase_quantity")
+    # Добавляем кнопки для каждого товара в корзине (по 4 в ряд)
+    for item_id, item in items.items():
+        builder.button(text=f"{item.price_per_unit}", callback_data=f"price_{item_id}")
+        builder.button(text="➖", callback_data=f"decrease_{item_id}")
+        builder.button(text=f"{item.quantity}", callback_data=f"quantity_{item_id}")
+        builder.button(text="➕", callback_data=f"increase_{item_id}")
 
-
+    # Добавляем остальные кнопки
     builder.button(text=LEXICON_MM['catalog'], callback_data="back_to_catalog")
     builder.button(text=LEXICON_CART['clear_cart'], callback_data="clear_cart")
-
     builder.button(text=LEXICON_CART['buy'], callback_data="buy")
-
     builder.button(text="🔙 Назад", callback_data='back_to_cart')
 
-    builder.adjust(4, 2, 1, 1)
+    # Настраиваем расположение кнопок:
+    # - сначала все товарные строки по 4 кнопки
+    # - затем каталог и очистка (2 кнопки в ряд)
+    # - затем оформить заказ (1 кнопка)
+    # - затем назад (1 кнопка)
+    builder.adjust(*[4] * len(items), 2, 1, 1)
 
     return builder.as_markup()

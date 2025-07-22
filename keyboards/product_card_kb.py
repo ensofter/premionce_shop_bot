@@ -1,8 +1,13 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
-def create_product_keyboard(quantity: int = 1, show_minus: bool = False, price: int = 1,
-                            back_category: str = 'racetami'):
+def create_product_keyboard(
+        quantity: int = 1,
+        price: int = 1,
+        back_category: str = 'racetami'):
+        in_cart: bool = False,
+        cart_items_count: int = 0
+) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     builder.button(text="➖", callback_data="decrease_quantity")

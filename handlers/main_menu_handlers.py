@@ -27,8 +27,8 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
         if not user_db[user_id].cart.total_uniq_items():
             inline_kb = create_inline_kb(
                 1,
-                LEXICON_MM,
-                'catalog'
+                LEXICON_CART,
+                'back_to_catalog'
             )
             if isinstance(message_or_callback, CallbackQuery):
                 await message_or_callback.message.edit_text(
@@ -41,16 +41,10 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
                     reply_markup=inline_kb.as_markup()
                 )
         else:
-            inline_kb = create_inline_kb(
-                1,
-                LEXICON_CART,
-                'catalog'
-            )
             text = """
             """
             for i, v in enumerate(user_db[user_id].cart.items, start=1):
-                text += f"""
-                \n{i}. {user_db[user_id].cart.get_item(v).name}
+                text += f"""\n{i}. {user_db[user_id].cart.get_item(v).name}
                 """
             inline_kb = create_cart_keyboard(user_db[user_id].cart.items)
             if isinstance(message_or_callback, CallbackQuery):
@@ -63,6 +57,23 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
                     text=text,
                     reply_markup=inline_kb
                 )
+    else:
+        inline_kb = create_inline_kb(
+            1,
+            LEXICON_CART,
+            'back_to_catalog'
+        )
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.edit_text(
+                text=LEXICON_CART['cart_is_empty'],
+                reply_markup=inline_kb.as_markup()
+            )
+        else:
+            await message_or_callback.answer(
+                text=LEXICON_CART['cart_is_empty'],
+                reply_markup=inline_kb.as_markup()
+            )
+
 
 
 @router.message(F.text == LEXICON_MM['catalog'])

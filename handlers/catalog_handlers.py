@@ -171,7 +171,6 @@ async def handle_clbck_metabolicheskie_item_button_pressed(callback: CallbackQue
 
 @router.callback_query(F.data.in_(["increase_quantity", "decrease_quantity"]))
 async def handle_clbck_quantity_buttons_pressed(callback: CallbackQuery):
-    debug_message(callback)
     quantity_and_price_in_button_text = callback.message.reply_markup.inline_keyboard[1][0].text
     product_description_text = callback.message.text
     product_category = callback.message.reply_markup.inline_keyboard[4][0].callback_data
@@ -204,9 +203,6 @@ async def handle_clbck_quantity_buttons_pressed(callback: CallbackQuery):
 async def handle_clbck_add_to_cart_button_pressed(callback: CallbackQuery):
     user_id = callback.from_user.id
     if user_id in user_db:
-        if user_db[user_id].cart.items:
-            logger.info(f'!!! {user_db[user_id].cart}')
-        debug_message(callback)
         quantity_and_price_in_button_text = callback.message.reply_markup.inline_keyboard[1][0].text
         product_description_text = callback.message.text
         product_category = callback.message.reply_markup.inline_keyboard[4][0].callback_data
@@ -218,7 +214,7 @@ async def handle_clbck_add_to_cart_button_pressed(callback: CallbackQuery):
         quantity = int(match_actual_quantity.group(1))  # Актуальное кол-во товара
         price = int(match_product_price.group(1))  # Цена товара
 
-        items_in_cart = len(user_db[user_id].cart)
+        items_in_cart = user_db[user_id].cart.total_uniq_items()
 
         builder = InlineKeyboardBuilder()
 
