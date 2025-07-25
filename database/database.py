@@ -75,19 +75,26 @@ user_dict_template = UserData(
     referral=Referral(),
     profile=Profile(),
     cart=Cart(
-        items={
+        items=
+        {
             5: CartItem(
-            item_id=5,
-            name='ANIRACETAM',
-            price_per_unit=1400,
-            quantity=2
-        ),
+                item_id=5,
+                name='ANIRACETAM',
+                price_per_unit=1400,
+                quantity=2
+            ),
             1: CartItem(
-            item_id=1,
-            name='7-OXO (7-KETO-DHEA)',
-            price_per_unit=3400,
-            quantity=1
-        )
+                item_id=1,
+                name='7-OXO (7-KETO-DHEA)',
+                price_per_unit=3400,
+                quantity=1
+            ),
+            34: CartItem(
+                item_id=34,
+                name='TROPOFLAVIN (7,8-DHF)',
+                price_per_unit=1300,
+                quantity=5
+            )
         }
     )
 )
