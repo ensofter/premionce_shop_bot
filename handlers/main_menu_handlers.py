@@ -41,11 +41,16 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
                     reply_markup=inline_kb.as_markup()
                 )
         else:
-            text = """
+            text = """👾 В вашей корзине 1 товаров
             """
+            items = []
             for i, v in enumerate(user_db[user_id].cart.items, start=1):
-                text += f"""\n{i}. {user_db[user_id].cart.get_item(v).name}
+                item = user_db[user_id].cart.get_item(v)
+                text += f"""\n{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>
                 """
+                items.append(item)
+            text += f"\n{len(items) + 1}. Доставка почтой России первый класс <code>800₽</code>"
+            text += f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in items) + 800}₽</code>"
             inline_kb = create_cart_keyboard(user_db[user_id].cart.items)
             if isinstance(message_or_callback, CallbackQuery):
                 await message_or_callback.message.edit_text(

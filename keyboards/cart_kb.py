@@ -12,7 +12,7 @@ def create_cart_keyboard(items: Dict[int, CartItem]):
 
     # Добавляем кнопки для каждого товара в корзине (по 4 в ряд)
     for item_id, item in items.items():
-        builder.button(text=f"{item.price_per_unit}", callback_data=f"price_{item_id}")
+        builder.button(text=f"{item.name}", callback_data=f"price_{item_id}")
         builder.button(text="➖", callback_data=f"decrease_{item_id}")
         builder.button(text=f"{item.quantity}", callback_data=f"quantity_{item_id}")
         builder.button(text="➕", callback_data=f"increase_{item_id}")
@@ -21,7 +21,7 @@ def create_cart_keyboard(items: Dict[int, CartItem]):
     builder.button(text=LEXICON_MM['catalog'], callback_data="back_to_catalog")
     builder.button(text=LEXICON_CART['clear_cart'], callback_data="clear_cart")
     builder.button(text=LEXICON_CART['buy'], callback_data="buy")
-    builder.button(text="🔙 Назад", callback_data='back_to_cart')
+    builder.button(text="🔙 Назад", callback_data='back_to_catalog')
 
     # Настраиваем расположение кнопок:
     # - сначала все товарные строки по 4 кнопки

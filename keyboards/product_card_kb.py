@@ -8,7 +8,8 @@ def create_product_keyboard(
         back_category: str = 'racetami',
         item_id: int = 0,
         in_cart: bool = False,
-        cart_items_count: int = 0
+        cart_items_count: int = 0,
+        url: str = ''
 ) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
@@ -21,18 +22,18 @@ def create_product_keyboard(
     if in_cart:
         # Товар в корзине: кнопки "Убрать из корзины" и "Корзина"
         builder.button(text="❌ Убрать из корзины", callback_data="remove_from_cart")
-        builder.button(text=f"🛒 Корзина ({cart_items_count})", callback_data="view_cart")
+        builder.button(text=f"🛒 Корзина ({cart_items_count})", callback_data="back_to_cart")
     else:
         if cart_items_count > 0:
             # Товар не в корзине, но корзина не пуста: кнопки "Добавить в корзину" и "Корзина"
-            builder.button(text="🛒 Добавить в корзину", callback_data="add_to_cart")
-            builder.button(text=f"🛒 Корзина ({cart_items_count})", callback_data="view_cart")
+            builder.button(text="🛍️ Добавить в корзину", callback_data="add_to_cart")
+            builder.button(text=f"🛒 Корзина ({cart_items_count})", callback_data="back_to_cart")
         else:
             # Товар не в корзине, корзина пуста: только кнопка "Добавить в корзину"
-            builder.button(text="🛒 Добавить в корзину", callback_data="add_to_cart")
+            builder.button(text="🛍️ Добавить в корзину", callback_data="add_to_cart")
 
     # 3. Кнопка подробного описания (всегда отдельная строка)
-    builder.button(text="📄 Подробное описание", callback_data="product_details")
+    builder.button(text="📝 Подробное описание", url=url)
 
     # 4. Кнопка назад (всегда отдельная строка)
     builder.button(text="🔙 Назад", callback_data=f"{back_category}")

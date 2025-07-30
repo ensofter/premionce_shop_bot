@@ -38,13 +38,23 @@ async def handle_clbck_category_button_pressed(callback: CallbackQuery):
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['racetami']['items'].keys()))
 async def handle_clbck_racetami_item_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
-
+    item_id = item_info['item_id']
+    if in_cart := user_db[user_id].cart.has_item(item_id):
+        quantity = user_db[user_id].cart.get_item(item_id).quantity
+    else:
+        quantity = 1
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
     inline_kb = create_product_keyboard(
+        quantity=quantity,
         price=item_info["price"],
-        back_category='racetami'
+        back_category=LEXICON_CATEGORIES_INFO['racetami']['category_name'],
+        item_id=item_info['item_id'],
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -57,13 +67,23 @@ async def handle_clbck_racetami_item_button_pressed(callback: CallbackQuery):
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['holinergetiki']['items'].keys()))
 async def handle_clbck_holinergetiki_item_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
-
+    item_id = item_info['item_id']
+    if in_cart := user_db[user_id].cart.has_item(item_id):
+        quantity = user_db[user_id].cart.get_item(item_id).quantity
+    else:
+        quantity = 1
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
     inline_kb = create_product_keyboard(
+        quantity=quantity,
         price=item_info["price"],
-        back_category='holinergetiki'
+        back_category=LEXICON_CATEGORIES_INFO['holinergetiki']['category_name'],
+        item_id=item_info['item_id'],
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -76,13 +96,23 @@ async def handle_clbck_holinergetiki_item_button_pressed(callback: CallbackQuery
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['stimulators']['items'].keys()))
 async def handle_clbck_stimulators_item_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
-
+    item_id = item_info['item_id']
+    if in_cart := user_db[user_id].cart.has_item(item_id):
+        quantity = user_db[user_id].cart.get_item(item_id).quantity
+    else:
+        quantity = 1
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
     inline_kb = create_product_keyboard(
+        quantity=quantity,
         price=item_info["price"],
-        back_category='stimulators'
+        back_category=LEXICON_CATEGORIES_INFO['stimulators']['category_name'],
+        item_id=item_info['item_id'],
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -95,13 +125,23 @@ async def handle_clbck_stimulators_item_button_pressed(callback: CallbackQuery):
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['neiroprotectors']['items'].keys()))
 async def handle_clbck_neiroprotectors_item_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
-
+    item_id = item_info['item_id']
+    if in_cart := user_db[user_id].cart.has_item(item_id):
+        quantity = user_db[user_id].cart.get_item(item_id).quantity
+    else:
+        quantity = 1
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
     inline_kb = create_product_keyboard(
+        quantity=quantity,
         price=item_info["price"],
-        back_category='neiroprotectors'
+        back_category=LEXICON_CATEGORIES_INFO['neiroprotectors']['category_name'],
+        item_id=item_info['item_id'],
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -114,13 +154,23 @@ async def handle_clbck_neiroprotectors_item_button_pressed(callback: CallbackQue
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['adaptogeni']['items'].keys()))
 async def handle_clbck_adaptogeni_item_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
-
+    item_id = item_info['item_id']
+    if in_cart := user_db[user_id].cart.has_item(item_id):
+        quantity = user_db[user_id].cart.get_item(item_id).quantity
+    else:
+        quantity = 1
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
     inline_kb = create_product_keyboard(
+        quantity=quantity,
         price=item_info["price"],
-        back_category='adaptogeni'
+        back_category=LEXICON_CATEGORIES_INFO['adaptogeni']['category_name'],
+        item_id=item_info['item_id'],
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -133,13 +183,23 @@ async def handle_clbck_adaptogeni_item_button_pressed(callback: CallbackQuery):
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['antidepressanti']['items'].keys()))
 async def handle_clbck_antidepressanti_item_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
-    logger.info(f'!!! {item_info}')
+    item_id = item_info['item_id']
+    if in_cart := user_db[user_id].cart.has_item(item_id):
+        quantity = user_db[user_id].cart.get_item(item_id).quantity
+    else:
+        quantity = 1
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
     inline_kb = create_product_keyboard(
+        quantity=quantity,
         price=item_info["price"],
-        back_category='antidepressanti',
+        back_category=LEXICON_CATEGORIES_INFO['antidepressanti']['category_name'],
+        item_id=item_info['item_id'],
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -166,9 +226,9 @@ async def handle_clbck_metabolicheskie_item_button_pressed(callback: CallbackQue
         back_category=LEXICON_CATEGORIES_INFO['metabolicheskie']['category_name'],
         item_id=item_info['item_id'],
         in_cart=in_cart,
-        cart_items_count=cart_items_count
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_text(
         text=LEXICON_CATALOG['item_info'](
             item_info["description"],
@@ -210,7 +270,8 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
         back_category=back_btn,
         item_id=item_id,
         in_cart=in_cart,
-        cart_items_count=cart_items_count
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
 
     await callback.message.edit_reply_markup(reply_markup=inline_kb)
@@ -233,14 +294,11 @@ async def handle_add_to_cart(callback: CallbackQuery):
         price_per_unit=item_info['price'],
         quantity=quantity
     )
-
     user_db[user_id].cart.add_item(item)
-
     in_cart = user_db[user_id].cart.has_item(item_id)
     back_btn = keyboard[3][0].callback_data
     price_per_item = item_info['price']
     cart_items_count = user_db[user_id].cart.total_uniq_items()
-
 
     new_keyboard = create_product_keyboard(
         quantity=quantity,
@@ -248,9 +306,9 @@ async def handle_add_to_cart(callback: CallbackQuery):
         back_category=back_btn,
         item_id=item_id,
         in_cart=in_cart,
-        cart_items_count=cart_items_count
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_reply_markup(reply_markup=new_keyboard)
     await callback.answer("Товар добавлен в корзину")
 
@@ -258,45 +316,28 @@ async def handle_add_to_cart(callback: CallbackQuery):
 # Хэндлер для удаления из корзины
 @router.callback_query(F.data == "remove_from_cart")
 async def handle_remove_from_cart(callback: CallbackQuery):
-    # Здесь должна быть логика удаления из корзины
-
-    # Получаем текущие данные из сообщения
+    user_id = callback.from_user.id
     keyboard = callback.message.reply_markup.inline_keyboard
-    quantity_text = keyboard[0][1].text
-    back_button_data = keyboard[3][0].callback_data
-    back_category = back_button_data.split(":")[1] if "back_to:" in back_button_data else 'racetami'
-
-    # Парсим количество и цену
-    match = re.search(r'(\d+)\s*шт\.\s×\s(\d+)₽', quantity_text)
-    if not match:
-        await callback.answer("Ошибка обработки количества")
-        return
-
+    item_id = int(keyboard[0][1].callback_data)
+    item_info = next((item for item in LEXICON_ITEMS.values() if item["item_id"] == item_id), None)
+    quantity_btn = keyboard[0][1]
+    match = re.search(r'(\d+)\s*шт\.\s×\s(\d+)₽', quantity_btn.text)
     quantity = int(match.group(1))
-    price_per_item = int(match.group(2))
 
-    # Здесь должна быть логика удаления товара из корзины
-    # user_db[callback.from_user.id].cart.remove_item(...)
+    user_db[user_id].cart.remove_item(item_id, quantity)
+    in_cart = user_db[user_id].cart.has_item(item_id)
+    back_btn = keyboard[3][0].callback_data
+    price_per_item = item_info['price']
+    cart_items_count = user_db[user_id].cart.total_uniq_items()
 
-    # После удаления получаем обновленное количество товаров в корзине
-    cart_items_count = 0  # Здесь должно быть user_db[callback.from_user.id].cart.total_uniq_items()
-
-    # Обновляем клавиатуру (теперь товара нет в корзине)
     new_keyboard = create_product_keyboard(
-        quantity=quantity,
+        quantity=1,
         price=price_per_item,
-        back_category=back_category,
-        in_cart=False,
-        cart_items_count=cart_items_count
+        back_category=back_btn,
+        item_id=item_id,
+        in_cart=in_cart,
+        cart_items_count=cart_items_count,
+        url=item_info['more_url']
     )
-
     await callback.message.edit_reply_markup(reply_markup=new_keyboard)
-    await callback.answer("Товар удалён из корзины")
-
-
-# Хэндлер для просмотра корзины
-@router.callback_query(F.data == "view_cart")
-async def handle_view_cart(callback: CallbackQuery):
-    # Здесь должна быть логика отображения корзины
-    await callback.answer("Переход в корзину")
-
+    await callback.answer("Товар удален из корзины")
