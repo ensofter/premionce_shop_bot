@@ -4,7 +4,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton
 
 from database.database import user_db
-from keyboards.cart_kb import create_cart_keyboard
+from keyboards.cart_kb import create_cart_kb
 from keyboards.inline_kb import create_inline_kb
 from lexicon.lexicon_cart import LEXICON_CART
 from lexicon.lexicon_profile import LEXICON_PROFILE
@@ -18,6 +18,29 @@ logger = logging.getLogger()
 router = Router()
 
 
+async def handle_empty_cart(message_or_callback: Message | CallbackQuery):
+    """
+    Данная функция нужна, для того чтобы избавиться от повторяющегося кода
+    :param message_or_callback:
+    :return:
+    """
+    inline_kb = create_inline_kb(
+        1,
+        LEXICON_CART,
+        'back_to_catalog'
+    )
+    text = LEXICON_CART['cart_is_empty']
+    if isinstance(message_or_callback, CallbackQuery):
+        await message_or_callback.message.edit_text(
+            text=text,
+            reply_markup=inline_kb.as_markup()
+        )
+    else:
+        await message_or_callback.answer(
+            text=text,
+            reply_markup=inline_kb.as_markup()
+        )
+
 
 @router.message(F.text == LEXICON_MM['cart'])
 @router.callback_query(F.data == 'back_to_cart')
@@ -25,33 +48,19 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
     user_id = message_or_callback.from_user.id
     if user_id in user_db:
         if not user_db[user_id].cart.total_uniq_items():
-            inline_kb = create_inline_kb(
-                1,
-                LEXICON_CART,
-                'back_to_catalog'
-            )
-            if isinstance(message_or_callback, CallbackQuery):
-                await message_or_callback.message.edit_text(
-                    text=LEXICON_CART['cart_is_empty'],
-                    reply_markup=inline_kb.as_markup()
-                )
-            else:
-                await message_or_callback.answer(
-                    text=LEXICON_CART['cart_is_empty'],
-                    reply_markup=inline_kb.as_markup()
-                )
+            await handle_empty_cart(message_or_callback)
         else:
-            text = """👾 В вашей корзине 1 товаров
-            """
-            items = []
-            for i, v in enumerate(user_db[user_id].cart.items, start=1):
-                item = user_db[user_id].cart.get_item(v)
-                text += f"""\n{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>
-                """
-                items.append(item)
-            text += f"\n{len(items) + 1}. Доставка почтой России первый класс <code>800₽</code>"
-            text += f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in items) + 800}₽</code>"
-            inline_kb = create_cart_keyboard(user_db[user_id].cart.items)
+            items_text = [
+                f"{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>"
+                for i, item in enumerate(user_db[user_id].cart.items.values(), start=1)
+            ]
+            text = (
+                    f"👾 В вашей корзине {len(items_text)} товаров\n\n"
+                    + "\n".join(items_text)
+                    + f"\n\n{len(items_text)+1}. Доставка почтой России первый класс <code>800₽</code>"
+                    + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
+            )
+            inline_kb = create_cart_kb(user_db[user_id].cart.items)
             if isinstance(message_or_callback, CallbackQuery):
                 await message_or_callback.message.edit_text(
                     text=text,
@@ -63,21 +72,7 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
                     reply_markup=inline_kb
                 )
     else:
-        inline_kb = create_inline_kb(
-            1,
-            LEXICON_CART,
-            'back_to_catalog'
-        )
-        if isinstance(message_or_callback, CallbackQuery):
-            await message_or_callback.message.edit_text(
-                text=LEXICON_CART['cart_is_empty'],
-                reply_markup=inline_kb.as_markup()
-            )
-        else:
-            await message_or_callback.answer(
-                text=LEXICON_CART['cart_is_empty'],
-                reply_markup=inline_kb.as_markup()
-            )
+        await handle_empty_cart(message_or_callback)
 
 
 

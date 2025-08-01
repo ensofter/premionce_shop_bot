@@ -239,14 +239,14 @@ async def handle_clbck_metabolicheskie_item_button_pressed(callback: CallbackQue
     )
 
 
-@router.callback_query(F.data.in_(["increase_quantity", "decrease_quantity"]))
+@router.callback_query(F.data.in_(["plus_quantity", "minus_quantity"]))
 async def handle_quantity_buttons_pressed(callback: CallbackQuery):
     user_id = callback.from_user.id
     keyboard = callback.message.reply_markup.inline_keyboard
     item_id = int(keyboard[0][1].callback_data)
     if in_cart := user_db[user_id].cart.has_item(item_id):
         quantity = user_db[user_id].cart.get_item(item_id).quantity
-        if callback.data == "increase_quantity":
+        if callback.data == "plus_quantity":
             new_quantity = quantity + 1
         else:
             new_quantity = max(1, quantity - 1)
@@ -255,7 +255,7 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
         quantity_btn = keyboard[0][1]
         match = re.search(r'(\d+)\s*шт\.\s×\s(\d+)₽', quantity_btn.text)
         quantity = int(match.group(1))
-        if callback.data == "increase_quantity":
+        if callback.data == "plus_quantity":
             new_quantity = quantity + 1
         else:
             new_quantity = max(1, quantity - 1)

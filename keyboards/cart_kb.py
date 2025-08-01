@@ -7,7 +7,7 @@ from lexicon.lexicon_cart import LEXICON_CART
 from lexicon.lexicon_main_menu import LEXICON_MM
 
 
-def create_cart_keyboard(items: Dict[int, CartItem]):
+def create_cart_kb(items: Dict[int, CartItem]):
     builder = InlineKeyboardBuilder()
 
     # Добавляем кнопки для каждого товара в корзине (по 4 в ряд)

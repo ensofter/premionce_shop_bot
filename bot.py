@@ -15,6 +15,7 @@ from handlers import profile_handlers
 from handlers import referral_handlers
 from keyboards.set_bot_menu import set_main_menu
 from handlers import catalog_handlers
+from handlers import cart_handlers
 
 conf = Config.load_config()
 logger = logging.getLogger()
@@ -32,6 +33,7 @@ async def main():
     dp.include_routers(
         cmd_handlers.router,
         main_menu_handlers.router,
+        cart_handlers.router,
         catalog_handlers.router,
         profile_handlers.router,
         referral_handlers.router,
