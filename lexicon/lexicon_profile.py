@@ -33,6 +33,7 @@ LEXICON_PROFILE: dict[str, str | Callable] = {
     'edit_address': 'Адрес',
     'edit_profile_from_scratch': '🥺 Заполнить профиль заново',
     'back_to_profile': '🔙 Назад',
+    'back_to_cart': '🛒 Корзина',
     'everything_ok': lambda fio, phone, address: (
         '✅ Отлично, я все запомнил\n\n'
         '🤓 Ваш профиль\n\n'

@@ -146,7 +146,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "7-OXO (7-KETO-DHEA) - Ускоряет метаболизм, повышает энергию. Не влияет на гормоны напрямую.",
-        "more_url": "https://telegra.ph/7-OXO-7-KETO-DHEA-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/7-OXO-7-KETO-DHEA-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW0GiPei8KDDxtJ6nzK088-8XxOYE6AAJF8zEbXqCBSO3iPX4KoE5gAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "9-me-bc": {
         "item_id": 2,
@@ -157,7 +160,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "9-ME-BC - Восстанавливает дофаминовые нейроны. Улучшает мотивацию и когнитивные функции.",
-        "more_url": "https://telegra.ph/9-ME-BC-by-PREMIONCE-05-25"
+        "more_url": "https://telegra.ph/9-ME-BC-by-PREMIONCE-05-25",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW0WiPeni2LDeH3T_OuJhFTUuvgfMCAAJH8zEbXqCBSMB1RupifOFvAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "aicar": {
         "item_id": 3,
@@ -168,7 +174,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "AICAR - Активирует AMPK, улучшает выносливость и метаболизм глюкозы.",
-        "more_url": "https://telegra.ph/AICAR-by-PREMIONCE-07-06"
+        "more_url": "https://telegra.ph/AICAR-by-PREMIONCE-07-06",
+        "stock": 100,
+        "image_url": "",
+        "is_available": True,
     },
     "amino-tadalafil": {
         "item_id": 4,
@@ -179,7 +188,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "60 капсул",
         "dosage": "5+5 мг",
         "description": "AMINO-TADALAFIL (WITH BIOPERINE) - Комбинация тадалафила и биоперина. Улучшает кровообращение и либидо.",
-        "more_url": "https://telegra.ph/Amino-Tadalafil-by-PREMIONCE-05-17"
+        "more_url": "https://telegra.ph/Amino-Tadalafil-by-PREMIONCE-05-17",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW0miPeru3AbxtBopLqpmS5XWMUuGxAAJJ8zEbXqCBSJGhgWe9CY_XAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "aniracetam": {
         "item_id": 5,
@@ -190,7 +202,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "300 мг",
         "description": "ANIRACETAM - Улучшает память и настроение, снижает тревожность. Действует через AMPA-рецепторы.",
-        "more_url": "https://telegra.ph/ANIRACETAM-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/ANIRACETAM-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW02iPes1ECtXTSmooHnPZXI4rcIkcAAJK8zEbXqCBSMbj1O_n81mqAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "ladasten": {
         "item_id": 6,
@@ -201,7 +216,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "50 мг",
         "description": "BROMANTANE (LADASTEN) - Повышает выносливость и адаптацию к стрессу. Без перевозбуждения.",
-        "more_url": "https://telegra.ph/BROMANTANE-by-PREMIONCE-06-29"
+        "more_url": "https://telegra.ph/BROMANTANE-by-PREMIONCE-06-29",
+        "stock": 100,
+        "image_url": "",
+        "is_available": True,
     },
     "citicoline": {
         "item_id": 7,
@@ -212,7 +230,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "250 мг",
         "description": "CDP-CHOLINE (CITICOLINE) - Восстанавливает мембраны нейронов, улучшает фокус и ясность ума.",
-        "more_url": "https://telegra.ph/CDP-CHOLINE-Citikolin-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/CDP-CHOLINE-Citikolin-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW1GiPev8k83AZvy1n4Ak8bTqSG8bAAAJL8zEbXqCBSDYx5BeWjcS4AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "coluracetam": {
         "item_id": 8,
@@ -223,7 +244,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "50 мг",
         "description": "COLURACETAM - Улучшает зрительное восприятие и память. Потенциальный антидепрессант.",
-        "more_url": "https://telegra.ph/COLURACETAM-Koluracetam-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/COLURACETAM-Koluracetam-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW1WiPexzAts44-cyzohF8BUcTvqJ1AAJP8zEbXqCBSGOAVKdgjvnYAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "cycloastragenol": {
         "item_id": 9,
@@ -234,7 +258,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "CYCLOASTRAGENOL - Активирует теломеразу, замедляет старение. Улучшает иммунитет.",
-        "more_url": "https://telegra.ph/Cycloastragenol-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/Cycloastragenol-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW1miPeyx8muS8RP0Yp9LnWiIJWsJ1AAJQ8zEbXqCBSBK7Gbpl0r4ZAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "d-phenylalanine": {
         "item_id": 10,
@@ -245,7 +272,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "700 мг",
         "description": "D-PHENYLALANINE - Повышает уровень эндорфинов. Эффективен при депрессии и боли.",
-        "more_url": "https://telegra.ph/D-PHENYLALANINE-by-PREMIONCE-05-25"
+        "more_url": "https://telegra.ph/D-PHENYLALANINE-by-PREMIONCE-05-25",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW12iPezsGdlE0WuT46YrkgBC7S96UAAJR8zEbXqCBSDisWandpZy8AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "dihexa": {
         "item_id": 11,
@@ -256,7 +286,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "100 мг в 5 мл",
         "dosage": "1 мг/пшик (100 доз)",
         "description": "DIHEXA (SPRAY) - Мощный нейрорегенератор, улучшает память и обучаемость.",
-        "more_url": "https://telegra.ph/DIHEXA-Digeksa-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/DIHEXA-Digeksa-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW2GiPe9VAyyvrXqdJCzW-WzOldNF8AAJT8zEbXqCBSPu70dJPLEF7AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "androxal": {
         "item_id": 12,
@@ -267,7 +300,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "20 мг",
         "description": "ENCLOMIPHENE (ANDROXAL) - Повышает тестостерон, улучшает либидо и энергию.",
-        "more_url": "https://telegra.ph/ENCLOMIPHENE-EHnklomifen-Androksal-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/ENCLOMIPHENE-EHnklomifen-Androksal-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW2WiPe-_7sq-21sbJp_jWzQTzmC_HAAJU8zEbXqCBSD2quU5LiZV_AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "4-dma-78-dhf": {
         "item_id": 13,
@@ -278,7 +314,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "EUTROPOFLAVIN (4'-DMA-7,8-DHF) - Аналог BDNF, улучшает нейропластичность и память.",
-        "more_url": "https://telegra.ph/Eutropoflavin-4-DMA-78-DHF-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/Eutropoflavin-4-DMA-78-DHF-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW2miPfAABlwVXoS7xGtyN09Nkkr-99QACVfMxG16ggUgF73ilQUglcwEAAwIAA3kAAzYE",
+        "is_available": True,
     },
     "aromasin": {
         "item_id": 14,
@@ -289,7 +328,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "25 мг",
         "description": "EXEMESTANE (AROMASIN) - Ингибитор ароматазы. Снижает эстроген, повышает тестостерон.",
-        "more_url": "https://telegra.ph/EXEMESTANE-Aromazin-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/EXEMESTANE-Aromazin-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW22iPfBsRhbQB4nlQ1G696sDwt5BdAAJY8zEbXqCBSKnD-WXjdeuIAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "fasoracetam": {
         "item_id": 15,
@@ -300,7 +342,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "FASORACETAM - Улучшает внимание и обучаемость, особенно при СДВГ.",
-        "more_url": "https://telegra.ph/FASORACETAM-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/FASORACETAM-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "",
+        "is_available": True,
     },
     "ketas": {
         "item_id": 16,
@@ -311,7 +356,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "IBUDILAST (KETAS) - нейропротектор, снижает нейровоспаление.",
-        "more_url": "https://telegra.ph/IBUDILAST-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/IBUDILAST-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW3GiPfEieW1TlXthjkiyAollOWYL9AAJb8zEbXqCBSDXVs75wcchlAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "mk-677": {
         "item_id": 17,
@@ -322,7 +370,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "15 мг",
         "description": "IBUTAMOREN (MK-677) - Стимулятор гормона роста. Увеличивает мышечную массу.",
-        "more_url": "https://telegra.ph/IBUTAMOREN-MK-677-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/IBUTAMOREN-MK-677-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW3WiPfFy-Xe3cuU1vQ_KtkAnzjxUAA2LzMRteoIFIepSotu21RggBAAMCAAN5AAM2BA",
+        "is_available": True,
     },
     "j-147": {
         "item_id": 18,
@@ -333,7 +384,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "J-147 - Антиоксидант и нейропротектор, замедляет старение мозга.",
-        "more_url": "https://telegra.ph/J-147-by-PREMIONCE-06-22"
+        "more_url": "https://telegra.ph/J-147-by-PREMIONCE-06-22",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW3miPfJyhyhCS1JPhhaBfPPNUvwg1AAJk8zEbXqCBSC9JyR6uUGIdAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "l-thp": {
         "item_id": 19,
@@ -344,7 +398,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "30 мг",
         "description": "L-THP - Анксиолитик и мягкий стимулятор. Снижает тревожность.",
-        "more_url": "https://telegra.ph/L-THP-L-Tetrahydropalmatine-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/L-THP-L-Tetrahydropalmatine-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW32iPfKt3QxjGOXh2RKss27r1DcdsAAJl8zEbXqCBSBfNKrpn2geuAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "magnesium_l-threonate": {
         "item_id": 20,
@@ -355,7 +412,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "500 мг",
         "description": "MAGNESIUM L-THREONATE - Лучшая форма магния для мозга. Улучшает память и сон.",
-        "more_url": "https://telegra.ph/MAGNESIUM-L-THREONATE-by-PREMIONCE-06-29"
+        "more_url": "https://telegra.ph/MAGNESIUM-L-THREONATE-by-PREMIONCE-06-29",
+        "stock": 100,
+        "image_url": "",
+        "is_available": True,
     },
     "centrophenoxine": {
         "item_id": 21,
@@ -366,7 +426,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "300 мг",
         "description": "MECLOFENOXATE (CENTROPHENOXINE) - Улучшает энергетический обмен в мозге, замедляет старение.",
-        "more_url": "https://telegra.ph/Meclofenoxate-Centrophenoxine-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/Meclofenoxate-Centrophenoxine-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW5GiPfO67TYqsIfDY-FZb_ZJnrwV-AAJn8zEbXqCBSBhDx1dLnJA1AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "nnmti": {
         "item_id": 22,
@@ -377,7 +440,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "50 мг",
         "description": "NNMTI (5-AMINO-1MQ) - Блокирует NNMT, повышает NAD+. Замедляет старение.",
-        "more_url": "https://telegra.ph/NNMTi-5-amino-1MQ-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/NNMTi-5-amino-1MQ-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW5WiPfPxx_zAxYd2RK0Yh_WZidSmfAAJo8zEbXqCBSH91zLH1Cov2AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "nor-bni": {
         "item_id": 23,
@@ -388,7 +454,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "50 мг в 10 мл",
         "dosage": "750 мкг/пшик (65 доз)",
         "description": "NOR-BNI - Блокирует каппа-опиоидные рецепторы, снижает тревожность.",
-        "more_url": "https://telegra.ph/NOR-BNI-Norbinaltorphimine-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/NOR-BNI-Norbinaltorphimine-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW5miPfQiocUsRoGHhgYaXCNoqjLKLAAJp8zEbXqCBSKTWMkgkX2WfAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "noopept": {
         "item_id": 24,
@@ -399,7 +468,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "30 мг",
         "description": "OMBERACETAM (NOOPEPT) - Нейропротектор с анксиолитическим эффектом.",
-        "more_url": "https://telegra.ph/OMBERACETAM-Omberacetam-Noopept-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/OMBERACETAM-Omberacetam-Noopept-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW52iPfRyYJkv3Evel3Rxn5Wo4gq4QAAJq8zEbXqCBSNpfuoz6tKtyAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "phenylpiracetam_hydrazide": {
         "item_id": 25,
@@ -410,7 +482,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "PHENYLPIRACETAM HYDRAZIDE - Аналог фенотропила с пролонгированным действием.",
-        "more_url": "https://telegra.ph/PREMIZIDE-Phenylpiracetam-hydrazide-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/PREMIZIDE-Phenylpiracetam-hydrazide-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW6GiPfTly3K0nIhfv3oIdbE3zw6mSAAJr8zEbXqCBSM_Xt8ByAzRTAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "wakix": {
         "item_id": 26,
@@ -421,7 +496,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "PITOLISANT (WAKIX) - Блокирует гистаминовые рецепторы, повышает бодрость.",
-        "more_url": "https://telegra.ph/PITOLISANT-WAKIX-by-PREMIONCE-07-06"
+        "more_url": "https://telegra.ph/PITOLISANT-WAKIX-by-PREMIONCE-07-06",
+        "stock": 100,
+        "image_url": "",
+        "is_available": True,
     },
     "pramiracetam": {
         "item_id": 27,
@@ -432,7 +510,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "300 мг",
         "description": "PRAMIRACETAM - Сильный стимулятор памяти и аналитического мышления.",
-        "more_url": "https://telegra.ph/PRAMIRACETAM-by-PREMIONCE-01-27"
+        "more_url": "https://telegra.ph/PRAMIRACETAM-by-PREMIONCE-01-27",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW6WiPfVFjE4nH39xbqVZopMnzbnsOAAJs8zEbXqCBSI68dnfhN-k0AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "prl-8-53": {
         "item_id": 28,
@@ -443,7 +524,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "PRL-8-53 - Улучшает краткосрочную память. Эффект после однократного приема.",
-        "more_url": "https://telegra.ph/PRL-8-53-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/PRL-8-53-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW6miPfWBqQ1o0n6oUw0Pli159oVe6AAJt8zEbXqCBSHCDAwlmr2a6AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "encephabol": {
         "item_id": 29,
@@ -454,7 +538,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "100 мг",
         "description": "PYRITINOL (ENCEFABOL) - Стимулирует метаболизм глюкозы в мозге. Повышает бодрость.",
-        "more_url": "https://telegra.ph/Pyritinol-Pyrithioxine-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/Pyritinol-Pyrithioxine-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW62iPfW0xrWiNG5YrctV6m97_Bn81AAJu8zEbXqCBSJIr4q1dmGvUAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "enerion": {
         "item_id": 30,
@@ -465,7 +552,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "200 мг",
         "description": "SULBUTIAMINE (ENERION) - Улучшает энергетический обмен, снижает усталость.",
-        "more_url": "https://telegra.ph/Sulbutiamine-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/Sulbutiamine-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW7GiPfYMDOPoGsMO1N7ZhbzyQfAYHAAJw8zEbXqCBSGkAAab_VP8P5QEAAwIAA3kAAzYE",
+        "is_available": True,
     },
     "osavampator": {
         "item_id": 31,
@@ -476,7 +566,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "100 мг в 5 мл DMSO",
         "dosage": "1 мг/пшик (100 доз)",
         "description": "TAK-653 (OSAVAMPATOR) - Усиливает синаптическую пластичность через AMPA-рецепторы.",
-        "more_url": "https://telegra.ph/TAK-653-Osavampator-by-PREMIONCE-06-22"
+        "more_url": "https://telegra.ph/TAK-653-Osavampator-by-PREMIONCE-06-22",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW7WiPfZC2MYue0MGHQvB_T3u9BGJSAAJx8zEbXqCBSCQMjAIeRkIaAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "tesofensine": {
         "item_id": 32,
@@ -487,7 +580,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 мг в 3 мл DMSO",
         "dosage": "500 мкг/пшик (60 доз)",
         "description": "TESOFENSINE - Сильный ингибитор обратного захвата дофамина и норадреналина.",
-        "more_url": "https://telegra.ph/TESO-Tesofensine-by-PREMIONCE-03-10"
+        "more_url": "https://telegra.ph/TESO-Tesofensine-by-PREMIONCE-03-10",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW7miPfZwqdL5VE4yhqkafwTRqVQ0kAAJy8zEbXqCBSF5inPDEpfGuAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "fareston": {
         "item_id": 33,
@@ -498,7 +594,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "20 мг",
         "description": "TOREMIFEN (FARESTON) - Антиэстроген, используется в терапии рака груди.",
-        "more_url": "https://telegra.ph/Toremifene-Fareston-by-PREMIONCE-05-17"
+        "more_url": "https://telegra.ph/Toremifene-Fareston-by-PREMIONCE-05-17",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW72iPfarggLeG3_JYjTk1K-41gB18AAJ08zEbXqCBSKJtap0QKUNFAQADAgADeQADNgQ",
+        "is_available": True,
     },
     "78-dhf": {
         "item_id": 34,
@@ -509,7 +608,10 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "25 мг",
         "description": "TROPOFLAVIN (7,8-DHF) - Усиливает когнитивные функции, защищает нейроны.",
-        "more_url": "https://telegra.ph/TROPOFLAVIN-78-DHF-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/TROPOFLAVIN-78-DHF-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW8GiPfbdYc8LL2K4f2Xta-oVYzmUsAAJ18zEbXqCBSCzgniTCsDR0AQADAgADeQADNgQ",
+        "is_available": True,
     },
     "unifiram": {
         "item_id": 35,
@@ -520,6 +622,9 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "quantity": "30 капсул",
         "dosage": "10 мг",
         "description": "UNIFIRAM - Усиливает когнитивные функции, может улучшать долговременную память.",
-        "more_url": "https://telegra.ph/UNIFIRAM-Unifiram-by-PREMIONCE-10-30"
+        "more_url": "https://telegra.ph/UNIFIRAM-Unifiram-by-PREMIONCE-10-30",
+        "stock": 100,
+        "image_url": "AgACAgIAAxkBAAIW8WiPfcobBpZgHeLWs5tNITme0IHjAAJ38zEbXqCBSOV9mw-SAAF-owEAAwIAA3kAAzYE",
+        "is_available": True,
     }
 }

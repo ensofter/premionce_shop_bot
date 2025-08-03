@@ -139,6 +139,7 @@ async def handle_address_sent(message: Message, state: FSMContext):
         1,
         LEXICON_PROFILE,
         'edit_profile',
+        'back_to_cart',
         'for_what'
     )
 
