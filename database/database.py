@@ -91,7 +91,7 @@ class Profile:
 class Referral:
     referral_key: str = None
     referred_by: str = None
-    referral_count: int = None
+    referral_count: int = 3
     referral_income: int = 10010
     created_at: datetime = field(default_factory=datetime.now)
     balance: int = 1000

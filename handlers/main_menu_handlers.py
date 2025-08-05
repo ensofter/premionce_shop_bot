@@ -7,6 +7,7 @@ from database.database import user_db
 from keyboards.cart_kb import create_cart_kb
 from keyboards.inline_kb import create_inline_kb
 from lexicon.lexicon_cart import LEXICON_CART
+from lexicon.lexicon_common import LEXICON_COMMON
 from lexicon.lexicon_profile import LEXICON_PROFILE
 from lexicon.lexicon_referral import LEXICON_REFERRAL
 from lexicon.lexicon_main_menu import LEXICON_MM
@@ -167,26 +168,38 @@ async def handle_referral(message_or_callback: Message | CallbackQuery):
         )
 
 
+# Хендлер обрабатывает реплай команду about и нажатие инлайн кнопок НЗАД back_to_about
 @router.message(F.text == LEXICON_MM['about'])
 @router.callback_query(F.data == 'back_to_about')
 async def handle_about(message_or_callback: Message | CallbackQuery):
-    inline_kb = create_inline_kb(
-        1,
-        LEXICON_ABOUT,
-        'faq',
-        'offer'
-    )
-    inline_kb.row(InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"))
-
-    text = LEXICON_ABOUT['🍥 О нас']
-
-    if isinstance(message_or_callback, CallbackQuery):
-        await message_or_callback.message.edit_text(
-            text=text,
-            reply_markup=inline_kb.as_markup()
+    user_id = message_or_callback.from_user.id
+    if user_id in user_db:
+        inline_kb = create_inline_kb(
+            1,
+            LEXICON_ABOUT,
+            'faq',
+            'offer'
         )
+        inline_kb.row(InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"))
+        text = LEXICON_ABOUT['🍥 О нас']
+        logger.info(f'')
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.edit_text(
+                text=text,
+                reply_markup=inline_kb.as_markup()
+            )
+        else:
+            await message_or_callback.answer(
+                text=text,
+                reply_markup=inline_kb.as_markup()
+            )
     else:
-        await message_or_callback.answer(
-            text=text,
-            reply_markup=inline_kb.as_markup()
-        )
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.edit_text(
+                text=LEXICON_COMMON['user_not_exist']
+            )
+        else:
+            await message_or_callback.answer(
+                text=LEXICON_COMMON['user_not_exist']
+            )
+
