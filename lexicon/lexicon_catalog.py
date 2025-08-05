@@ -176,7 +176,7 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "description": "AICAR - Активирует AMPK, улучшает выносливость и метаболизм глюкозы.",
         "more_url": "https://telegra.ph/AICAR-by-PREMIONCE-07-06",
         "stock": 100,
-        "image_url": "",
+        "image_url": "AgACAgIAAxkBAAIMVGf60QnrFLy_vDZrTkzsgbR0e80SAAJ-9jEbJJvYS2Bnqm4gPLHkAQADAgADeAADNgQ",
         "is_available": True,
     },
     "amino-tadalafil": {
@@ -218,7 +218,7 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "description": "BROMANTANE (LADASTEN) - Повышает выносливость и адаптацию к стрессу. Без перевозбуждения.",
         "more_url": "https://telegra.ph/BROMANTANE-by-PREMIONCE-06-29",
         "stock": 100,
-        "image_url": "",
+        "image_url": "AgACAgIAAxkBAAIMVGf60QnrFLy_vDZrTkzsgbR0e80SAAJ-9jEbJJvYS2Bnqm4gPLHkAQADAgADeAADNgQ",
         "is_available": True,
     },
     "citicoline": {
@@ -344,7 +344,7 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "description": "FASORACETAM - Улучшает внимание и обучаемость, особенно при СДВГ.",
         "more_url": "https://telegra.ph/FASORACETAM-by-PREMIONCE-01-27",
         "stock": 100,
-        "image_url": "",
+        "image_url": "AgACAgIAAxkBAAIMVGf60QnrFLy_vDZrTkzsgbR0e80SAAJ-9jEbJJvYS2Bnqm4gPLHkAQADAgADeAADNgQ",
         "is_available": True,
     },
     "ketas": {
@@ -414,7 +414,7 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "description": "MAGNESIUM L-THREONATE - Лучшая форма магния для мозга. Улучшает память и сон.",
         "more_url": "https://telegra.ph/MAGNESIUM-L-THREONATE-by-PREMIONCE-06-29",
         "stock": 100,
-        "image_url": "",
+        "image_url": "AgACAgIAAxkBAAIMVGf60QnrFLy_vDZrTkzsgbR0e80SAAJ-9jEbJJvYS2Bnqm4gPLHkAQADAgADeAADNgQ",
         "is_available": True,
     },
     "centrophenoxine": {
@@ -498,7 +498,7 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
         "description": "PITOLISANT (WAKIX) - Блокирует гистаминовые рецепторы, повышает бодрость.",
         "more_url": "https://telegra.ph/PITOLISANT-WAKIX-by-PREMIONCE-07-06",
         "stock": 100,
-        "image_url": "",
+        "image_url": "AgACAgIAAxkBAAIMVGf60QnrFLy_vDZrTkzsgbR0e80SAAJ-9jEbJJvYS2Bnqm4gPLHkAQADAgADeAADNgQ",
         "is_available": True,
     },
     "pramiracetam": {

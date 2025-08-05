@@ -30,7 +30,8 @@ async def handle_clbck_category_button_pressed(callback: CallbackQuery):
         *category_info['items'].keys(),
     )
 
-    await callback.message.edit_text(
+    await callback.message.delete()
+    await callback.message.answer(
         text=category_info['description'],
         reply_markup=inline_kb.as_markup()
     )
@@ -55,8 +56,10 @@ async def handle_clbck_racetami_item_button_pressed(callback: CallbackQuery):
         cart_items_count=cart_items_count,
         url=item_info['more_url']
     )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
+    await callback.message.delete()
+    await callback.message.answer_photo(
+        photo=item_info['image_url'],
+        caption=LEXICON_CATALOG['item_info'](
             item_info["description"],
             item_info["dosage"],
             item_info["quantity"],

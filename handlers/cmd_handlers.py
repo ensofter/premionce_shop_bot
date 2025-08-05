@@ -11,6 +11,7 @@ from lexicon.lexicon_cmd import LEXICON_CMD
 router = Router()
 
 
+# Хендлер обрабатывающий команду /start и возвращающий главное меню, а так же добавляющий пользователя в БД
 @router.message(CommandStart())
 async def handle_cmd_start(message: Message):
     user_id = message.from_user.id

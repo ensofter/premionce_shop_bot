@@ -132,7 +132,7 @@ async def handle_profile(message_or_callback: Message | CallbackQuery):
                 reply_markup=inline_kb.as_markup()
             )
 
-
+# Хендлер обрабатывает реплай сообщение referral или inline кнопку НАЗАД back_to_referral
 @router.message(F.text == LEXICON_MM['referral'])
 @router.callback_query(F.data == 'back_to_referral')
 async def handle_referral(message_or_callback: Message | CallbackQuery):
@@ -145,8 +145,8 @@ async def handle_referral(message_or_callback: Message | CallbackQuery):
     )
     if user_id in user_db:
         text = '🫂 Реферальная программа\n\n' \
-               f'Ваших рефералов: {user_db[user_id].referral.total_referral}\n' \
-               f'Общий заработок: {user_db[user_id].referral.total_income} ₽\n' \
+               f'Ваших рефералов: {user_db[user_id].referral.referral_count}\n' \
+               f'Общий заработок: {user_db[user_id].referral.referral_income} ₽\n' \
                f'Текущий ваш баланс: {user_db[user_id].referral.balance} ₽\n\n' \
                'Рекламируй PREMIONCE shop среди своих знакомых и зарабатывай ₽ с их покупок.'
     else:
@@ -182,7 +182,7 @@ async def handle_about(message_or_callback: Message | CallbackQuery):
         )
         inline_kb.row(InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"))
         text = LEXICON_ABOUT['🍥 О нас']
-        logger.info(f'')
+        logger.info(f'Пользователь {user_id} Запросил пункт меню О нас')
         if isinstance(message_or_callback, CallbackQuery):
             await message_or_callback.message.edit_text(
                 text=text,
