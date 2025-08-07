@@ -11,19 +11,6 @@ from functools import wraps
 router = Router()
 
 
-def ensure_user_exist_in_db(func):
-    @wraps(func)
-    async def wrapper(message_or_callback: Message | CallbackQuery, *args, **kwargs):
-        user_id = message_or_callback.from_user.id
-        if user_id not in user_db:
-            await message_or_callback.message.edit_text(
-                text="Такого пользователя нет в базе данных"
-            )
-            return
-        
-
-
-
 @router.callback_query(F.data == 'referral_url')
 async def handle_clbck_button_referral_url_pressed(callback: CallbackQuery):
     user_id = callback.from_user.id

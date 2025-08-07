@@ -145,7 +145,7 @@ async def handle_address_sent(message: Message, state: FSMContext):
 
     await message.answer(
         text=LEXICON_PROFILE['everything_ok'](
-            fio=user_db[user_id].profile.fio,
+            fio=user_db[user_id].profile.full_name,
             phone=user_db[user_id].profile.phone,
             address=user_db[user_id].profile.address
         ),
