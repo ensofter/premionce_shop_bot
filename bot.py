@@ -7,15 +7,15 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from confing.config import Config
-from handlers import about_handlers
-from handlers import cmd_handlers
-from handlers import main_menu_handlers
-from handlers import other_handlers
-from handlers import profile_handlers
-from handlers import referral_handlers
+from handlers.about_handlers import router as about_router
+from handlers.cmd_handlers import router as cmd_router
+from handlers.main_menu_handlers import router as main_menu_router
+from handlers.other_handlers import router as other_router
+from handlers.profile_handlers import router as profile_router
+from handlers.referral_handlers import router as referral_router
 from keyboards.set_bot_menu import set_main_menu
-from handlers import catalog_handlers
-from handlers import cart_handlers
+from handlers.catalog_handlers import router as catalog_router
+from handlers.cart_handlers import router as cart_router
 
 conf = Config.load_config()
 logger = logging.getLogger()
@@ -31,14 +31,14 @@ async def main():
     dp = Dispatcher(storage=storage)
 
     dp.include_routers(
-        cmd_handlers.router,
-        main_menu_handlers.router,
-        cart_handlers.router,
-        catalog_handlers.router,
-        profile_handlers.router,
-        referral_handlers.router,
-        about_handlers.router,
-        other_handlers.router
+        cmd_router,
+        main_menu_router,
+        cart_router,
+        catalog_router,
+        profile_router,
+        referral_router,
+        about_router,
+        other_router
     )
 
     await set_main_menu(bot)

@@ -74,7 +74,7 @@ class Cart:
 
 @dataclass
 class Profile:
-    full_name: str = None
+    fullname: str = None
     phone: str = None
     address: str = None
     created_at: datetime = None
@@ -84,7 +84,7 @@ class Profile:
             self.created_at = datetime.now()
 
     def is_complete(self) -> bool:
-        return all([self.full_name, self.phone, self.address])
+        return all([self.fullname, self.phone, self.address])
 
 
 @dataclass

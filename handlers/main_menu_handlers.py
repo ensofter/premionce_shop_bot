@@ -1,9 +1,12 @@
 import logging
 
 from aiogram import Router, F
+from aiogram.filters import StateFilter
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton
 
 from database.database import user_db
+from handlers.profile_handlers import FSMProfileEdit
 from keyboards.cart_kb import create_cart_kb
 from keyboards.inline_kb import create_inline_kb
 from lexicon.lexicon_cart import LEXICON_CART
@@ -41,9 +44,6 @@ async def handle_empty_cart(message_or_callback: Message | CallbackQuery):
             text=text,
             reply_markup=inline_kb.as_markup()
         )
-
-
-
 
 
 # Хэндлер обрабатывающий реплай сообщение catalog или inline кнопку НАЗАД back_to_catalog
@@ -127,10 +127,24 @@ async def handle_orders(message_or_callback: Message | CallbackQuery):
             )
 
 
+# Хэндлер обрабатывает случай, когда пользователь начал редактировать профиль, но вдруг передумал и нажал кнопку НАЗАД
+@router.callback_query(F.data == 'back_to_profile', StateFilter(FSMProfileEdit.waiting_edit_choice))
+async def cancel_editing(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    logger.info(f'Пользователь {user_id} отменил редактирование профиля и нажал кнопку НАЗАД')
+    await state.clear()
+    await handle_profile(callback)
+
+
 # Хэндлер обрабатывающий реплай сообщение profile или inline кнопку НАЗАД back_to_profile
 @router.message(F.text == LEXICON_MM['profile'])
 @router.callback_query(F.data == 'back_to_profile')
 async def handle_profile(message_or_callback: Message | CallbackQuery):
+    """
+    Кривой хэндлер. В начале стоит проверка на то, что есть ли пользак в базке или нет. Надо потом будет убрать!
+    :param message_or_callback:
+    :return:
+    """
     user_id = message_or_callback.from_user.id
     if user_id in user_db:
         if user_db[user_id].profile.is_complete():
@@ -142,7 +156,7 @@ async def handle_profile(message_or_callback: Message | CallbackQuery):
                 'for_what',
             )
             text = LEXICON_PROFILE['exist'](
-                full_name=user_db[user_id].profile.full_name,
+                fullname=user_db[user_id].profile.fullname,
                 phone=user_db[user_id].profile.phone,
                 address=user_db[user_id].profile.address
             )
@@ -156,24 +170,37 @@ async def handle_profile(message_or_callback: Message | CallbackQuery):
                     text=text,
                     reply_markup=inline_kb.as_markup()
                 )
-    logger.info(f'У пользователь {user_id} НЕ заполнен профиль')
-    inline_kb = create_inline_kb(
-        1,
-        LEXICON_PROFILE,
-        'fill_profile',
-        'for_what'
-    )
-    text = LEXICON_PROFILE['does_not_exist']
-    if isinstance(message_or_callback, CallbackQuery):
-        await message_or_callback.message.edit_text(
-            text=text,
-            reply_markup=inline_kb.as_markup()
-        )
+        else:
+            logger.info(f'У пользователь {user_id} НЕ заполнен профиль')
+            inline_kb = create_inline_kb(
+                1,
+                LEXICON_PROFILE,
+                'fill_profile',
+                'for_what'
+            )
+            text = LEXICON_PROFILE['does_not_exist']
+            if isinstance(message_or_callback, CallbackQuery):
+                await message_or_callback.message.edit_text(
+                    text=text,
+                    reply_markup=inline_kb.as_markup()
+                )
+            else:
+                await message_or_callback.answer(
+                    text=text,
+                    reply_markup=inline_kb.as_markup()
+                )
     else:
-        await message_or_callback.answer(
-            text=text,
-            reply_markup=inline_kb.as_markup()
-        )
+        logger.info(f'Пользователя нет в БД')
+        text = LEXICON_COMMON['user_not_exist']
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.edit_text(
+                text=text
+            )
+        else:
+            await message_or_callback.answer(
+                text=text
+            )
+
 
 
 # Хендлер обрабатывает реплай сообщение referral или inline кнопку НАЗАД back_to_referral

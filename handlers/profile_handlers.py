@@ -21,55 +21,34 @@ def debug_message(msg: Message):
 
 
 class FSMFillProfile(StatesGroup):
-    fill_fio = State()
+    fill_fullname = State()
     fill_phone = State()
     fill_address = State()
 
 
-class FSMFillFioProfile(StatesGroup):
-    fill_fio = State()
+class FSMProfileEdit(StatesGroup):
+    editing_field = State()
+    waiting_edit_choice = State()
 
 
-class FSMFillPhoneProfile(StatesGroup):
-    fill_phone = State()
-
-
-class FSMFillAddressProfile(StatesGroup):
-    fill_address = State()
-
-
-# Это хэндлер отработает если нажать кнопку Отмена, но только в том случае, если пользователь не в стейтмашине
-@router.callback_query(F.data == 'cancel_fill_profile', StateFilter(default_state))
-async def process_clbck_cancel_fill_profile_pressed(callback: CallbackQuery):
-    await callback.message.edit_text(
-        text='Вы не заполняете профиль. Вы вне машины состояний'
-    )
-
-
-# Это хэндлер отработает если нажать кнопку Отмена, но только в том случае, если пользователь в стейтмашине
-@router.callback_query(F.data == 'cancel_fill_profile', ~StateFilter(default_state))
-async def process_clbck_cancel_fill_profile_pressed_in_state(callback: CallbackQuery, state: FSMContext):
-    await callback.message.edit_text(
-        text='Вы отменили заполнение профиля'
-    )
-    await state.clear()
-
-
-# Отрабатывает когда нажата кнопка Заполнить профиль
-@router.callback_query(F.data.in_({'fill_profile', 'edit_profile_from_scratch'}), StateFilter(default_state))
-async def handle_clbck_button_fill_profile_pressed(callback: CallbackQuery, state: FSMContext):
+# Отрабатывает когда нажата кнопка Заполнить профиль или пользователь решил заполнить профиль заново
+@router.callback_query(F.data == 'fill_profile', StateFilter(default_state))
+async def handle_button_fill_profile_pressed(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    logger.info(f'Пользователь {user_id} приступил к заполнению профиля')
     await callback.message.edit_text(
         text=LEXICON_PROFILE['fill_profile_pressed']
     )
-    await state.set_state(FSMFillProfile.fill_fio)
+    await state.set_state(FSMFillProfile.fill_fullname)
 
 
 # Отрабатывает когда отправлено ФИО
-@router.message(StateFilter(FSMFillProfile.fill_fio),
+@router.message(StateFilter(FSMFillProfile.fill_fullname),
                 lambda x: len(x.text.strip().split()) == 3 and all(word.isalpha() for word in x.text.strip().split()))
-async def handle_fio_sent(message: Message, state: FSMContext):
-    await state.update_data(fio=message.text.strip())
-
+async def handle_fullname_sent(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    logger.info(f'Пользователь {user_id} ввел свое ФИО {message.text}')
+    await state.update_data(fullname=message.text.strip())
     reply_phone_kb = ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text=LEXICON_PROFILE['send_number_button'], request_contact=True)]
@@ -78,18 +57,19 @@ async def handle_fio_sent(message: Message, state: FSMContext):
         one_time_keyboard=True
     )
     await message.answer(
-        text=LEXICON_PROFILE['handle_fio_sent'],
+        text=LEXICON_PROFILE['handle_fullname_sent'],
         reply_markup=reply_phone_kb
     )
-
     await state.set_state(FSMFillProfile.fill_phone)
 
 
 # Отрабатывает когда что-то не так с ФИО
-@router.message(StateFilter(FSMFillProfile.fill_fio))
-async def warning_not_fio(message: Message):
+@router.message(StateFilter(FSMFillProfile.fill_fullname))
+async def warning_not_fullname(message: Message):
+    user_id = message.from_user.id
+    logger.info(f"Пользователь {user_id} ввел некорректное значение вместо ФИО {message.text}")
     await message.answer(
-        text=LEXICON_PROFILE['warning_not_fio']
+        text=LEXICON_PROFILE['warning_not_fullname']
     )
 
 
@@ -104,9 +84,10 @@ async def warning_not_fio(message: Message):
     )
 )
 async def handle_phone_sent(message: Message, state: FSMContext):
+    user_id = message.from_user.id
     phone = message.text.strip() if message.text else message.contact.phone_number
+    logger.info(f'Пользователь {user_id} ввел свой номер телефона {phone}')
     await state.update_data(phone=phone)
-
     await message.answer(
         text=LEXICON_PROFILE['handle_phone_sent'],
         reply_markup=ReplyKeyboardRemove()
@@ -117,6 +98,8 @@ async def handle_phone_sent(message: Message, state: FSMContext):
 # Отрабатывает когда что-то с телефоном не так
 @router.message(StateFilter(FSMFillProfile.fill_phone))
 async def warning_not_phone(message: Message):
+    user_id = message.from_user.id
+    logger.info(f"Пользователь {user_id} ввел некорректное значение вместо телефона {message.text}")
     await message.answer(
         text=LEXICON_PROFILE['warning_not_phone']
     )
@@ -126,14 +109,19 @@ async def warning_not_phone(message: Message):
 @router.message(StateFilter(FSMFillProfile.fill_address), F.text)
 async def handle_address_sent(message: Message, state: FSMContext):
     user_id = message.from_user.id
+    logger.info(f'Пользователь {user_id} ввел свой адрес {message.text}')
     await state.update_data(address=message.text.strip())
-
     data = await state.get_data()
     await state.clear()
 
-    user_db[user_id].profile.fio = data['fio']
+    user_db[user_id].profile.fullname = data['fullname']
     user_db[user_id].profile.phone = data['phone']
     user_db[user_id].profile.address = data['address']
+
+    logger.info(f'Сохраняем в БД введенные пользователем значения\n\n'
+                f'{user_db[user_id].profile.fullname}'
+                f'{user_db[user_id].profile.phone}'
+                f'{user_db[user_id].profile.address}')
 
     inline_kb = create_inline_kb(
         1,
@@ -142,10 +130,9 @@ async def handle_address_sent(message: Message, state: FSMContext):
         'back_to_cart',
         'for_what'
     )
-
     await message.answer(
         text=LEXICON_PROFILE['everything_ok'](
-            fio=user_db[user_id].profile.full_name,
+            fullname=user_db[user_id].profile.fullname,
             phone=user_db[user_id].profile.phone,
             address=user_db[user_id].profile.address
         ),
@@ -156,18 +143,20 @@ async def handle_address_sent(message: Message, state: FSMContext):
 # Отрабатывает когда с адресом что-то не так
 @router.message(StateFilter(FSMFillProfile.fill_address))
 async def warning_not_address(message: Message):
+    user_id = message.from_user.id
+    logger.info(f"Пользователь {user_id} ввел некорректное значение вместо адреса {message.text}")
     await message.answer(
         text=LEXICON_PROFILE['warning_not_address']
     )
 
 
-# Отрабатывает когда нажимают кнопку Редактировать
-@router.callback_query(F.data == 'edit_profile')
-async def handle_edit_profile_button_pressed(callback: CallbackQuery):
-    reply_kb = create_inline_kb(
+@router.callback_query(F.data == 'edit_profile', StateFilter(default_state))
+async def handle_edit_profile_button_pressed(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    inline_kb = create_inline_kb(
         1,
         LEXICON_PROFILE,
-        'edit_fio',
+        'edit_fullname',
         'edit_phone',
         'edit_address',
         'edit_profile_from_scratch',
@@ -175,167 +164,90 @@ async def handle_edit_profile_button_pressed(callback: CallbackQuery):
     )
     await callback.message.edit_text(
         text=LEXICON_PROFILE['edit_profile_button_pressed'],
-        reply_markup=reply_kb.as_markup()
+        reply_markup=inline_kb.as_markup()
     )
+    logger.info(f'Пользователь {user_id} начал редактирование профиля и перешел в состояние ожидания поля')
+    await state.set_state(FSMProfileEdit.waiting_edit_choice)
 
 
-# Отрабатывает, когда нажимают кнопку редактирования ФИО
-@router.callback_query(F.data == 'edit_fio', StateFilter(default_state))
-async def handle_edit_fio_button_pressed(callback: CallbackQuery, state: FSMContext):
-    text = LEXICON_PROFILE['fill_fio_again']
-    await callback.message.edit_text(
-        text=text
-    )
+@router.callback_query(
+    F.data.in_({'edit_fullname', 'edit_phone', 'edit_address'}),
+    StateFilter(FSMProfileEdit.waiting_edit_choice)
+)
+async def handle_select_field_to_edit(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    field = callback.data.split('_')[1]
+    await state.update_data(editing_field=field)
+    logger.info(f'Пользователь {user_id} выбрал поле {field} для редактирования')
+    if field == 'phone':
+        inline_kb = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text=LEXICON_PROFILE['send_number_button'], request_contact=True)]],
+            resize_keyboard=True
+        )
+    else:
+        inline_kb = ReplyKeyboardRemove()
+    text = LEXICON_PROFILE[f'fill_{field}_again']
+    await callback.message.answer(text, reply_markup=inline_kb)
+    await state.set_state(FSMProfileEdit.editing_field)
 
-    await state.set_state(FSMFillFioProfile.fill_fio)
 
-
-# Отрабатывает, когда вводят новое ФИО
-@router.message(StateFilter(FSMFillFioProfile.fill_fio),
-                lambda x: len(x.text.strip().split()) == 3 and all(word.isalpha() for word in x.text.strip().split()))
-async def handle_fio_edit_sent(message: Message, state: FSMContext):
+@router.message(StateFilter(FSMProfileEdit.editing_field))
+async def save_profile_field(message: Message, state: FSMContext):
     user_id = message.from_user.id
-    await state.update_data(fio=message.text.strip())
-
     data = await state.get_data()
+    field = data['editing_field']
+    value = ''
+    debug_message(message)
+    if field == 'fullname':
+        logger.info(f'Пользователь {user_id} редактирует поле fullname')
+        if not (len(message.text.split()) == 3 and all(word.isalpha() for word in message.text.split())):
+            await message.answer(LEXICON_PROFILE['warning_not_fio'])
+            return
+        value = message.text.strip()
+    elif field == 'phone':
+        logger.info(f'Пользователь {user_id} редактирует поле phone')
+        phone = message.text if message.text else (message.contact.phone_number if message.contact else None)
+        if not (phone and len(phone) == 11 and phone.startswith('7')):
+            await message.answer(LEXICON_PROFILE['warning_not_phone'])
+            return
+        value = phone
+    elif field == 'address':
+        logger.info(f'Пользователь {user_id} редактирует поле address')
+        if not message.text:
+            await message.answer(LEXICON_PROFILE['warning_not_address'])
+            return
+        value = message.text.strip()
+    logger.info(f'Пользователь {user_id} редактирует поле {field} и ввел значение {value}')
+    setattr(user_db[user_id].profile, field, value)
     await state.clear()
-
-    user_db[user_id].profile.fio = data['fio']
-
     inline_kb = create_inline_kb(
         1,
         LEXICON_PROFILE,
         'edit_profile',
-        'for_what'
+        'for_what',
     )
-
+    text = LEXICON_PROFILE['everything_ok'](
+        fullname=user_db[user_id].profile.fullname,
+        phone=user_db[user_id].profile.phone,
+        address=user_db[user_id].profile.address
+    )
     await message.answer(
-        text=LEXICON_PROFILE['everything_ok'](
-            fio=user_db[user_id].profile.fio,
-            phone=user_db[user_id].profile.phone,
-            address=user_db[user_id].profile.address
-        ),
-        reply_markup=inline_kb.as_markup()
-    )
-
-
-# Отрабатывает, когда фильтр на введенное ФИО выше не отработал
-@router.message(StateFilter(FSMFillFioProfile.fill_fio))
-async def warning_not_fio_again(message: Message):
-    await message.answer(
-        text=LEXICON_PROFILE['warning_not_fio']
-    )
-
-
-# Отрабатывает, когда нажимают кнопку редактирования Номера Телефона
-@router.callback_query(F.data == 'edit_phone', StateFilter(default_state))
-async def handle_edit_phone_button_pressed(callback: CallbackQuery, state: FSMContext):
-    text = LEXICON_PROFILE['fill_phone_again']
-    reply_phone_kb = ReplyKeyboardMarkup(
-        keyboard=[
-            [KeyboardButton(text=LEXICON_PROFILE['send_number_button'], request_contact=True)]
-        ],
-        resize_keyboard=True,
-        one_time_keyboard=True
-    )
-    await callback.message.delete()
-
-    await callback.message.answer(
         text=text,
-        reply_markup=reply_phone_kb
-    )
-    await state.set_state(FSMFillPhoneProfile.fill_phone)
-
-
-@router.message(StateFilter(FSMFillPhoneProfile.fill_phone),
-                F.text | F.contact,
-                lambda x: (
-                        (x.text and x.text.isdigit() and len(x.text) == 11 and x.text.startswith('7'))
-                        or
-                        (x.contact and x.contact.phone_number)
-                )
-                )
-async def handle_phone_edit_sent(message: Message, state: FSMContext):
-    user_id = message.from_user.id
-    phone = message.text.strip() if message.text else message.contact.phone_number
-    await state.update_data(phone=phone)
-
-    data = await state.get_data()
-    await state.clear()
-
-    user_db[user_id].profile.phone = data['phone']
-
-    inline_kb = create_inline_kb(
-        1,
-        LEXICON_PROFILE,
-        'edit_profile',
-        'for_what'
-    )
-
-    await message.answer(
-        text=LEXICON_PROFILE['everything_ok'](
-            fio=user_db[user_id].profile.fio,
-            phone=user_db[user_id].profile.phone,
-            address=user_db[user_id].profile.address
-        ),
         reply_markup=inline_kb.as_markup()
     )
 
 
-@router.message(StateFilter(FSMFillPhoneProfile.fill_phone))
-async def warning_not_phone_again(message: Message):
-    await message.answer(
-        text=LEXICON_PROFILE['warning_not_phone']
-    )
-
-
-@router.callback_query(F.data == 'edit_address', StateFilter(default_state))
-async def handle_edit_address_button_pressed(callback: CallbackQuery, state: FSMContext):
-    text = LEXICON_PROFILE['fill_address_again']
-    await callback.message.edit_text(
-        text=text
-    )
-
-    await state.set_state(FSMFillAddressProfile.fill_address)
-
-
-@router.message(StateFilter(FSMFillAddressProfile.fill_address), F.text)
-async def handle_address_edit_sent(message: Message, state: FSMContext):
-    user_id = message.from_user.id
-    address = message.text.strip()
-    await state.update_data(address=address)
-
-    data = await state.get_data()
-    await state.clear()
-
-    user_db[user_id].profile.address = data['address']
-
-    inline_kb = create_inline_kb(
-        1,
-        LEXICON_PROFILE,
-        'edit_profile',
-        'for_what'
-    )
-
-    await message.answer(
-        text=LEXICON_PROFILE['everything_ok'](
-            fio=user_db[user_id].profile.fio,
-            phone=user_db[user_id].profile.phone,
-            address=user_db[user_id].profile.address
-        ),
-        reply_markup=inline_kb.as_markup()
-    )
-
-
-@router.message(StateFilter(FSMFillAddressProfile.fill_address))
-async def warning_not_address_again(message: Message):
-    await message.answer(
-        text=LEXICON_PROFILE['warning_not_address']
-    )
+@router.callback_query(F.data == 'edit_profile_from_scratch', StateFilter(FSMProfileEdit.waiting_edit_choice))
+async def handle_button_edit_profile_from_scratch_pressed(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    logger.info(f'Пользователь {user_id} заново заполнить профиль')
+    await handle_button_fill_profile_pressed(callback, state)
 
 
 @router.callback_query(F.data == 'for_what')
 async def handle_clbck_for_what_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    logger.info(f'Пользователь {user_id} нажал кнопку Зачем эти данные')
     text = LEXICON_PROFILE['for_what_expanded']
     inline_kb = create_inline_kb(
         1,
