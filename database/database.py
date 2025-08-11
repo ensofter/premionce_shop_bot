@@ -1,4 +1,3 @@
-import random
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -138,21 +137,18 @@ class UserData:
     cart: Cart = field(default_factory=Cart)
     orders: List[Order] = field(default_factory=list)
 
-    def get_user_id(self) -> int:
-        return self.user_id
-
     def create_order_from_cart(self) -> Order:
         order = Order(
-            order_id=int(uuid.uuid4().int & (1<<31)-1),
+            order_id=int(uuid.uuid4().int & (1 << 31) - 1),
             items=list(self.cart.items.values()),
             created_at=datetime.now(),
             subtotal=self.cart.calculate_total(),
             delivery_address=self.profile.address,
-            contact_name=self.profile.full_name,
+            contact_name=self.profile.fullname,
             contact_phone=self.profile.phone,
             delivery_cost=800,
             discount=0,
-            user_id=self.get_user_id(),
+            user_id=self.user_id,
         )
         self.orders.append(order)
         self.cart.clear()

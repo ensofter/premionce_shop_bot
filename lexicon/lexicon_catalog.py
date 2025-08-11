@@ -196,7 +196,7 @@ LEXICON_ITEMS: dict[str, dict[str, int | str]] = {
     "aniracetam": {
         "item_id": 5,
         "category_id": 1,
-        "category_name": "aniracetam",
+        "category_name": "racetami",
         "name": "ANIRACETAM",
         "price": 1400,
         "quantity": "30 капсул",

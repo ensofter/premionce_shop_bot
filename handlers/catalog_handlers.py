@@ -20,16 +20,16 @@ def debug_message(msg: Message | CallbackQuery):
 
 
 @router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO.keys()))
-async def handle_clbck_category_button_pressed(callback: CallbackQuery):
+async def handle_category_button_pressed(callback: CallbackQuery):
+    user_id = callback.from_user.id
     category = callback.data
     category_info = LEXICON_CATEGORIES_INFO[category]
-
+    logger.info(f'Пользователь {user_id} перешел в категорию товара {category_info}')
     inline_kb = create_inline_kb(
         1,
         category_info['items'],
         *category_info['items'].keys(),
     )
-
     await callback.message.delete()
     await callback.message.answer(
         text=category_info['description'],
@@ -37,23 +37,23 @@ async def handle_clbck_category_button_pressed(callback: CallbackQuery):
     )
 
 
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['racetami']['items'].keys()))
-async def handle_clbck_racetami_item_button_pressed(callback: CallbackQuery):
+@router.callback_query(F.data.in_(LEXICON_ITEMS.keys()))
+async def handle_item_pressed(callback: CallbackQuery):
     user_id = callback.from_user.id
     item_info = LEXICON_ITEMS[callback.data]
     item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
+    category = item_info['category_name']
+    logger.info(f'Пользователь {user_id} выбрал товар {item_info}')
+    cart = user_db[user_id].cart
+    item_in_cart = cart.has_item(item_id)
+    quantity = cart.get_item(item_id).quantity if item_in_cart else 1
     inline_kb = create_product_keyboard(
         quantity=quantity,
         price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['racetami']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
+        back_category=category,
+        item_id=item_id,
+        in_cart=item_in_cart,
+        cart_items_count=cart.total_uniq_items(),
         url=item_info['more_url']
     )
     await callback.message.delete()
@@ -65,180 +65,7 @@ async def handle_clbck_racetami_item_button_pressed(callback: CallbackQuery):
             item_info["quantity"],
             item_info["price"]),
         reply_markup=inline_kb
-    )
 
-
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['holinergetiki']['items'].keys()))
-async def handle_clbck_holinergetiki_item_button_pressed(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    item_info = LEXICON_ITEMS[callback.data]
-    item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
-    inline_kb = create_product_keyboard(
-        quantity=quantity,
-        price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['holinergetiki']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
-        url=item_info['more_url']
-    )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
-            item_info["description"],
-            item_info["dosage"],
-            item_info["quantity"],
-            item_info["price"]),
-        reply_markup=inline_kb
-    )
-
-
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['stimulators']['items'].keys()))
-async def handle_clbck_stimulators_item_button_pressed(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    item_info = LEXICON_ITEMS[callback.data]
-    item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
-    inline_kb = create_product_keyboard(
-        quantity=quantity,
-        price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['stimulators']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
-        url=item_info['more_url']
-    )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
-            item_info["description"],
-            item_info["dosage"],
-            item_info["quantity"],
-            item_info["price"]),
-        reply_markup=inline_kb
-    )
-
-
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['neiroprotectors']['items'].keys()))
-async def handle_clbck_neiroprotectors_item_button_pressed(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    item_info = LEXICON_ITEMS[callback.data]
-    item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
-    inline_kb = create_product_keyboard(
-        quantity=quantity,
-        price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['neiroprotectors']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
-        url=item_info['more_url']
-    )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
-            item_info["description"],
-            item_info["dosage"],
-            item_info["quantity"],
-            item_info["price"]),
-        reply_markup=inline_kb
-    )
-
-
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['adaptogeni']['items'].keys()))
-async def handle_clbck_adaptogeni_item_button_pressed(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    item_info = LEXICON_ITEMS[callback.data]
-    item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
-    inline_kb = create_product_keyboard(
-        quantity=quantity,
-        price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['adaptogeni']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
-        url=item_info['more_url']
-    )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
-            item_info["description"],
-            item_info["dosage"],
-            item_info["quantity"],
-            item_info["price"]),
-        reply_markup=inline_kb
-    )
-
-
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['antidepressanti']['items'].keys()))
-async def handle_clbck_antidepressanti_item_button_pressed(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    item_info = LEXICON_ITEMS[callback.data]
-    item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
-    inline_kb = create_product_keyboard(
-        quantity=quantity,
-        price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['antidepressanti']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
-        url=item_info['more_url']
-    )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
-            item_info["description"],
-            item_info["dosage"],
-            item_info["quantity"],
-            item_info["price"]),
-        reply_markup=inline_kb
-    )
-
-
-@router.callback_query(F.data.in_(LEXICON_CATEGORIES_INFO['metabolicheskie']['items'].keys()))
-async def handle_clbck_metabolicheskie_item_button_pressed(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    item_info = LEXICON_ITEMS[callback.data]
-    item_id = item_info['item_id']
-    if in_cart := user_db[user_id].cart.has_item(item_id):
-        quantity = user_db[user_id].cart.get_item(item_id).quantity
-    else:
-        quantity = 1
-    cart_items_count = user_db[user_id].cart.total_uniq_items()
-    inline_kb = create_product_keyboard(
-        quantity=quantity,
-        price=item_info["price"],
-        back_category=LEXICON_CATEGORIES_INFO['metabolicheskie']['category_name'],
-        item_id=item_info['item_id'],
-        in_cart=in_cart,
-        cart_items_count=cart_items_count,
-        url=item_info['more_url']
-    )
-    await callback.message.edit_text(
-        text=LEXICON_CATALOG['item_info'](
-            item_info["description"],
-            item_info["dosage"],
-            item_info["quantity"],
-            item_info["price"]),
-        reply_markup=inline_kb
     )
 
 

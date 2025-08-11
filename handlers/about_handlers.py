@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 
@@ -6,10 +8,8 @@ from keyboards.pagination_kb import create_pagination_keyboard
 from lexicon.lexicon_about import LEXICON_OFFER, LEXICON_ABOUT
 from lexicon.lexicon_common import LEXICON_COMMON
 from lexicon.lexicon_faq import LEXICON_FAQ_QUESTIONS
-import logging
 
 router = Router()
-
 
 logger = logging.getLogger(__name__)
 

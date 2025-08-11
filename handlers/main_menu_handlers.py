@@ -50,6 +50,8 @@ async def handle_empty_cart(message_or_callback: Message | CallbackQuery):
 @router.message(F.text == LEXICON_MM['catalog'])
 @router.callback_query(F.data == 'back_to_catalog')
 async def handle_catalog(message_or_callback: Message | CallbackQuery):
+    user_id = message_or_callback.from_user.id
+    logger.info(f'Пользователь {user_id} запросил каталог товаров')
     inline_kb = create_inline_kb(
         1,
         LEXICON_CATALOG_CATEGORIES,
@@ -64,6 +66,19 @@ async def handle_catalog(message_or_callback: Message | CallbackQuery):
         await message_or_callback.answer(
             text=LEXICON_CATALOG['welcome_text'],
             reply_markup=inline_kb.as_markup()
+        )
+
+
+@router.message(F.text == LEXICON_MM['promotions'])
+@router.callback_query(F.data == 'back_to_promotions')
+async def handle_promotions(message_or_callback: Message | CallbackQuery):
+    if isinstance(message_or_callback, CallbackQuery):
+        await message_or_callback.message.edit_text(
+            text="Тут будут разные акции"
+        )
+    else:
+        await message_or_callback.answer(
+            text="Тут будут разные акции"
         )
 
 
@@ -129,7 +144,7 @@ async def handle_orders(message_or_callback: Message | CallbackQuery):
 
 # Хэндлер обрабатывает случай, когда пользователь начал редактировать профиль, но вдруг передумал и нажал кнопку НАЗАД
 @router.callback_query(F.data == 'back_to_profile', StateFilter(FSMProfileEdit.waiting_edit_choice))
-async def cancel_editing(callback: CallbackQuery, state: FSMContext):
+async def cancel_editing_profile(callback: CallbackQuery, state: FSMContext):
     user_id = callback.from_user.id
     logger.info(f'Пользователь {user_id} отменил редактирование профиля и нажал кнопку НАЗАД')
     await state.clear()
