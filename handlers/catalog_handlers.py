@@ -73,8 +73,11 @@ async def handle_item_pressed(callback: CallbackQuery):
 async def handle_quantity_buttons_pressed(callback: CallbackQuery):
     user_id = callback.from_user.id
     keyboard = callback.message.reply_markup.inline_keyboard
+    logger.info(f'Пользователь {user_id} пытается произвести {callback.data}')
     item_id = int(keyboard[0][1].callback_data)
-    if in_cart := user_db[user_id].cart.has_item(item_id):
+    in_cart = user_db[user_id].cart.has_item(item_id)
+    if in_cart:
+        logger.info(f'Товар {item_id} у пользователя в корзине и он меняет кол-во')
         quantity = user_db[user_id].cart.get_item(item_id).quantity
         if callback.data == "plus_quantity":
             new_quantity = quantity + 1
@@ -82,8 +85,9 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
             new_quantity = max(1, quantity - 1)
         user_db[user_id].cart.get_item(item_id).quantity = new_quantity
     else:
+        logger.info(f'Товара {item_id} нет у пользователя в корзине и он меняет кол-во')
         quantity_btn = keyboard[0][1]
-        match = re.search(r'(\d+)\s*шт\.\s×\s(\d+)₽', quantity_btn.text)
+        match = re.search(r'(\d+)\s*×\s*(\d+)₽', quantity_btn.text)
         quantity = int(match.group(1))
         if callback.data == "plus_quantity":
             new_quantity = quantity + 1
@@ -91,12 +95,11 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
             new_quantity = max(1, quantity - 1)
     item_info = next((item for item in LEXICON_ITEMS.values() if item["item_id"] == item_id), None)
     back_btn = keyboard[3][0].callback_data
-    price_per_item = item_info['price']
+    price = item_info['price']
     cart_items_count = user_db[user_id].cart.total_uniq_items()
-
     inline_kb = create_product_keyboard(
         quantity=new_quantity,
-        price=price_per_item,
+        price=price,
         back_category=back_btn,
         item_id=item_id,
         in_cart=in_cart,
@@ -114,28 +117,27 @@ async def handle_add_to_cart(callback: CallbackQuery):
     user_id = callback.from_user.id
     keyboard = callback.message.reply_markup.inline_keyboard
     item_id = int(keyboard[0][1].callback_data)
+    logger.info(f'Пользователь {user_id} добавляет товар {item_id} в корзину')
     item_info = next((item for item in LEXICON_ITEMS.values() if item["item_id"] == item_id), None)
     quantity_btn = keyboard[0][1]
-    match = re.search(r'(\d+)\s*шт\.\s×\s(\d+)₽', quantity_btn.text)
+    match = re.search(r'(\d+)\s*×\s*(\d+)₽', quantity_btn.text)
     quantity = int(match.group(1))
     item = CartItem(
         item_id=item_id,
         name=item_info['name'],
-        price_per_unit=item_info['price'],
+        unit_price=item_info['price'],
         quantity=quantity
     )
     user_db[user_id].cart.add_item(item)
-    in_cart = user_db[user_id].cart.has_item(item_id)
     back_btn = keyboard[3][0].callback_data
-    price_per_item = item_info['price']
+    price = item_info['price']
     cart_items_count = user_db[user_id].cart.total_uniq_items()
-
     new_keyboard = create_product_keyboard(
         quantity=quantity,
-        price=price_per_item,
+        price=price,
         back_category=back_btn,
         item_id=item_id,
-        in_cart=in_cart,
+        in_cart=True,
         cart_items_count=cart_items_count,
         url=item_info['more_url']
     )
@@ -149,23 +151,21 @@ async def handle_remove_from_cart(callback: CallbackQuery):
     user_id = callback.from_user.id
     keyboard = callback.message.reply_markup.inline_keyboard
     item_id = int(keyboard[0][1].callback_data)
+    logger.info(f'Пользователь {user_id} удаляет товар {item_id} из корзины')
     item_info = next((item for item in LEXICON_ITEMS.values() if item["item_id"] == item_id), None)
     quantity_btn = keyboard[0][1]
-    match = re.search(r'(\d+)\s*шт\.\s×\s(\d+)₽', quantity_btn.text)
+    match = re.search(r'(\d+)\s*×\s*(\d+)₽', quantity_btn.text)
     quantity = int(match.group(1))
-
     user_db[user_id].cart.remove_item(item_id, quantity)
-    in_cart = user_db[user_id].cart.has_item(item_id)
     back_btn = keyboard[3][0].callback_data
-    price_per_item = item_info['price']
+    price = item_info['price']
     cart_items_count = user_db[user_id].cart.total_uniq_items()
-
     new_keyboard = create_product_keyboard(
         quantity=1,
-        price=price_per_item,
+        price=price,
         back_category=back_btn,
         item_id=item_id,
-        in_cart=in_cart,
+        in_cart=False,
         cart_items_count=cart_items_count,
         url=item_info['more_url']
     )

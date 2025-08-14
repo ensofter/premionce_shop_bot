@@ -117,16 +117,16 @@ async def handle_buy_cart_button_pressed(callback: CallbackQuery):
     profile = user_db[user_id].profile
 
     if user_id in user_db:
-        if all([profile.fio, profile.phone, profile.address]):
+        if profile.is_complete():
             items_text = [
-                f"{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>"
+                f"{i}. {item.name} <code>{item.quantity}шт. × {item.unit_price}₽ = {item.quantity * item.unit_price}₽</code>"
                 for i, item in enumerate(cart.items.values(), start=1)
             ]
             text = (
                     f"👾 В вашей корзине {len(items_text)} товаров\n\n"
                     + "\n".join(items_text)
                     + f"\n\n{len(items_text) + 1}. Доставка почтой России первый класс <code>800₽</code>"
-                    + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
+                    + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.unit_price * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
             )
             await callback.message.edit_text(
                 text=text,

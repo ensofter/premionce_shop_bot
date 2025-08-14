@@ -92,21 +92,26 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
             await handle_empty_cart(message_or_callback)
         else:
             items_text = [
-                f"{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>"
+                f"{i}. {item.name} <code>{item.quantity}шт. × {item.unit_price}₽ = {item.quantity * item.unit_price}₽</code>"
                 for i, item in enumerate(user_db[user_id].cart.items.values(), start=1)
             ]
             text = (
                     f"👾 В вашей корзине {len(items_text)} товаров\n\n"
                     + "\n".join(items_text)
                     + f"\n\n{len(items_text)+1}. Доставка почтой России первый класс <code>800₽</code>"
-                    + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
+                    + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.unit_price * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
             )
             inline_kb = create_cart_kb(user_db[user_id].cart.items)
             if isinstance(message_or_callback, CallbackQuery):
-                await message_or_callback.message.edit_text(
+                await message_or_callback.message.delete()
+                await message_or_callback.message.answer(
                     text=text,
                     reply_markup=inline_kb
                 )
+                # await message_or_callback.message.edit_text(
+                #     text=text,
+                #     reply_markup=inline_kb
+                # )
             else:
                 await message_or_callback.answer(
                     text=text,

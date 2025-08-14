@@ -15,7 +15,7 @@ def create_product_keyboard(
 
     # 1. Строка с кнопками количества
     builder.button(text="➖", callback_data="minus_quantity")
-    builder.button(text=f"{quantity} шт. × {price}₽ = {quantity * price}₽", callback_data=f"{item_id}")
+    builder.button(text=f"{quantity}×{price}₽={quantity * price}₽", callback_data=f"{item_id}")
     builder.button(text="➕", callback_data="plus_quantity")
 
     # 2. Строка с кнопками корзины
