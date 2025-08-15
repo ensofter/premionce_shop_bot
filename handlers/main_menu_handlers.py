@@ -12,6 +12,7 @@ from keyboards.inline_kb import create_inline_kb
 from lexicon.lexicon_cart import LEXICON_CART
 from lexicon.lexicon_common import LEXICON_COMMON
 from lexicon.lexicon_profile import LEXICON_PROFILE
+from lexicon.lexicon_promotions import LEXICON_PROMOTIONS
 from lexicon.lexicon_referral import LEXICON_REFERRAL
 from lexicon.lexicon_main_menu import LEXICON_MM
 from lexicon.lexicon_about import LEXICON_ABOUT
@@ -72,13 +73,15 @@ async def handle_catalog(message_or_callback: Message | CallbackQuery):
 @router.message(F.text == LEXICON_MM['promotions'])
 @router.callback_query(F.data == 'back_to_promotions')
 async def handle_promotions(message_or_callback: Message | CallbackQuery):
+    user_id = message_or_callback.from_user.id
+    logger.info(f'Пользователь {user_id} запросил действующие акции')
     if isinstance(message_or_callback, CallbackQuery):
         await message_or_callback.message.edit_text(
-            text="Тут будут разные акции"
+            text=LEXICON_PROMOTIONS['welcome_promotion_text']
         )
     else:
         await message_or_callback.answer(
-            text="Тут будут разные акции"
+            text=LEXICON_PROMOTIONS['welcome_promotion_text']
         )
 
 
@@ -108,10 +111,6 @@ async def handle_cart(message_or_callback: Message | CallbackQuery):
                     text=text,
                     reply_markup=inline_kb
                 )
-                # await message_or_callback.message.edit_text(
-                #     text=text,
-                #     reply_markup=inline_kb
-                # )
             else:
                 await message_or_callback.answer(
                     text=text,

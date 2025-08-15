@@ -24,13 +24,12 @@ async def handle_decrease_item_quantity_in_cart(callback: CallbackQuery):
     item_id = int(callback.data.split("_")[1])
     cart = user_db[user_id].cart
     item = cart.get_item(item_id)
-
     if not user_db[user_id].cart.has_item(item_id):
         await callback.answer("Товар не найден в корзине!", show_alert=True)
         return
 
     if item.quantity > 1:
-        item.quantity -= 1
+        cart.decrease_item_quantity(item_id, 1)
         logger.info(f"Пользователь {user_id} уменьшил кол-во товара {item_id} до значения {item.quantity}")
     else:
         cart.remove_item(item_id)
@@ -40,14 +39,14 @@ async def handle_decrease_item_quantity_in_cart(callback: CallbackQuery):
         await handle_empty_cart(callback)
     else:
         items_text = [
-            f"{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>"
+            f"{i}. {item.name} <code>{item.quantity}шт. × {item.unit_price}₽ = {item.quantity * item.unit_price}₽</code>"
             for i, item in enumerate(cart.items.values(), start=1)
         ]
         text = (
                 f"👾 В вашей корзине {len(items_text)} товаров\n\n"
                 + "\n".join(items_text)
                 + f"\n\n{len(items_text) + 1}. Доставка почтой России первый класс <code>800₽</code>"
-                + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
+                + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.unit_price * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
         )
         inline_kb = create_cart_kb(
             items=cart.items
@@ -75,18 +74,18 @@ async def handle_increase_item_quantity_in_cart(callback: CallbackQuery):
         await callback.answer("Максимальное кол-во товара: 10 шт.", show_alert=True)
         return
 
-    item.quantity += 1
+    cart.increase_item_quantity(item_id, 1)
     logger.info(f"Пользователь {user_id} увеличил кол-во товара {item_id} до значения {item.quantity}")
 
     items_text = [
-        f"{i}. {item.name} <code>{item.quantity}шт. × {item.price_per_unit}₽ = {item.quantity * item.price_per_unit}₽</code>"
+        f"{i}. {item.name} <code>{item.quantity}шт. × {item.unit_price}₽ = {item.quantity * item.unit_price}₽</code>"
         for i, item in enumerate(cart.items.values(), start=1)
     ]
     text = (
             f"👾 В вашей корзине {len(items_text)} товаров\n\n"
             + "\n".join(items_text)
             + f"\n\n{len(items_text) + 1}. Доставка почтой России первый класс <code>800₽</code>"
-            + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.price_per_unit * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
+            + f"\n\n<b>Общая стоимость:</b> <code>{sum(i.unit_price * i.quantity for i in user_db[user_id].cart.items.values()) + 800}₽</code>"
     )
 
     inline_kb = create_cart_kb(
