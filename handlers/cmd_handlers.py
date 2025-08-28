@@ -40,7 +40,8 @@ async def handle_cmd_start(message_or_callback: Message | CallbackQuery):
             reply_markup=reply_kb
         )
     else:
-        await message_or_callback.message.edit_reply_markup(reply_markup=None)
+        await message_or_callback.message.delete()
+        # await message_or_callback.message.edit_reply_markup(reply_markup=None)
         await message_or_callback.message.answer(
             text=LEXICON_CMD['/start'],
             reply_markup=reply_kb

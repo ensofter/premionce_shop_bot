@@ -128,7 +128,8 @@ async def handle_address_sent(message: Message, state: FSMContext):
         LEXICON_PROFILE,
         'edit_profile',
         'back_to_cart',
-        'for_what'
+        'for_what',
+        'back_to_main_menu'
     )
     await message.answer(
         text=LEXICON_PROFILE['everything_ok'](
@@ -197,7 +198,6 @@ async def save_profile_field(message: Message, state: FSMContext):
     data = await state.get_data()
     field = data['editing_field']
     value = ''
-    debug_message(message)
     if field == 'fullname':
         logger.info(f'Пользователь {user_id} редактирует поле fullname')
         if not (len(message.text.split()) == 3 and all(word.isalpha() for word in message.text.split())):
@@ -225,6 +225,7 @@ async def save_profile_field(message: Message, state: FSMContext):
         LEXICON_PROFILE,
         'edit_profile',
         'for_what',
+        'back_to_main_menu'
     )
     text = LEXICON_PROFILE['everything_ok'](
         fullname=user_db[user_id].profile.fullname,
@@ -245,7 +246,7 @@ async def handle_button_edit_profile_from_scratch_pressed(callback: CallbackQuer
 
 
 @router.callback_query(F.data == 'for_what')
-async def handle_clbck_for_what_button_pressed(callback: CallbackQuery):
+async def handle_for_what_button_pressed(callback: CallbackQuery):
     user_id = callback.from_user.id
     logger.info(f'Пользователь {user_id} нажал кнопку Зачем эти данные')
     text = LEXICON_PROFILE['for_what_expanded']
