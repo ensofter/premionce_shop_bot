@@ -272,7 +272,11 @@ async def handle_about(message_or_callback: Message | CallbackQuery):
         'faq',
         'offer'
     )
-    inline_kb.row(InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"))
+    inline_kb.row(
+        InlineKeyboardButton(text='‍💻 Менеджер', url="tg://user?id=82429730"),
+        InlineKeyboardButton(text=LEXICON_COMMON['back_to_main_menu'], callback_data='back_to_main_menu'),
+        width=1
+    )
     text = LEXICON_ABOUT['🍥 О нас']
     logger.info(f'Пользователь {user_id} Запросил пункт меню О нас')
     if isinstance(message_or_callback, CallbackQuery):

@@ -3,6 +3,7 @@ LEXICON_ABOUT: [str, str] = {
     'faq': '⁉️ Частые вопросы',
     'offer': '🤝 Оферта',
     'back_to_about': '🔙 Назад',
+    'back_to_main_menu': '🔙 Назад'
 }
 
 LEXICON_OFFER: [str, str] = {

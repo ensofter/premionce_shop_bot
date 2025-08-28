@@ -15,6 +15,9 @@ router = Router()
 logger = logging.getLogger(__name__)
 
 
+MAX_ITEM_QUANTITY = 10
+
+
 def debug_message(msg: Message | CallbackQuery):
     logger.info(f'!!! {msg.model_dump_json(exclude_none=True, indent=2)}')
 
@@ -80,6 +83,12 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
         logger.info(f'Товар {item_id} у пользователя в корзине и он меняет кол-во')
         quantity = user_db[user_id].cart.get_item(item_id).quantity
         if callback.data == "plus_quantity":
+            if quantity >= MAX_ITEM_QUANTITY:
+                await callback.answer(
+                    f'Максимальное кол-во товара для добавления в корзину {MAX_ITEM_QUANTITY}',
+                    show_alert=True
+                )
+                return
             new_quantity = quantity + 1
         else:
             new_quantity = max(1, quantity - 1)
@@ -90,6 +99,12 @@ async def handle_quantity_buttons_pressed(callback: CallbackQuery):
         match = re.search(r'(\d+)\s*×\s*(\d+)₽', quantity_btn.text)
         quantity = int(match.group(1))
         if callback.data == "plus_quantity":
+            if quantity >= MAX_ITEM_QUANTITY:
+                await callback.answer(
+                    f'Максимальное кол-во товара для добавления в корзину {MAX_ITEM_QUANTITY}',
+                    show_alert=True
+                )
+                return 
             new_quantity = quantity + 1
         else:
             new_quantity = max(1, quantity - 1)
